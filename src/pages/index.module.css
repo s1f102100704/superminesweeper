@@ -8,7 +8,7 @@
   padding: 0 0.5rem;
 }
 
-.samplestyle {
+.bombstyle {
   width: 30px;
   height: 30px;
   background: url('~/src/assets/images/icons.png') no-repeat;
@@ -24,7 +24,7 @@
   position: relative;
   left: 12px;
   width: 288px;
-  height: 288px;
+  height: 370px;
   background-color: gray;
 }
 
