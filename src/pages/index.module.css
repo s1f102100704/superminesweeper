@@ -18,6 +18,7 @@
   width: 312px;
   height: 370px;
   background-color: gray;
+  outline: white outset 3px;
 }
 
 .boardstyle {
@@ -34,7 +35,9 @@
   bottom: 16px;
   width: 288px;
   height: 52px;
-  border: 2px solid white;
+
+  /* border: 2px solid white; */
+  outline: white outset 3px;
 }
 
 .cellstyle {
@@ -43,5 +46,5 @@
   float: left;
   width: 32px;
   height: 32px;
-  border: 2px solid white;
+  outline: white outset 3px;
 }
