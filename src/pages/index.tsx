@@ -29,33 +29,34 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
   const board = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
   ];
 
-  const [samplePos, setSamplePos] = useState(0);
+  const [samplePos, setSamplePos] = useState(-1);
 
   const clickHandler = (x: number, y: number) => {
-    const newBoard = structuredClone(bombmap);
+    const newBombmap = structuredClone(bombmap);
     const usermap = structuredClone(userInputs);
-    if (samplePos === 0) {
-      makeBomb(newBoard, x, y);
+    if (samplePos === -1) {
+      makeBomb(newBombmap, x, y);
     }
     makeuserinputs(usermap, x, y);
-    allDirections(newBoard);
+    allDirections(board, newBombmap, x, y);
     setUserInputs(usermap);
-    setBombmap(newBoard);
-    setSamplePos(10);
+    setBombmap(newBombmap);
+    setSamplePos(board[y][x]);
+    console.log(bombmap);
   };
   //爆弾の周りの数字
-  const allDirections = (newBoard: number[][]) => {
+  const allDirections = (board: number[][], newBombmap: number[][], x: number, y: number) => {
     const directions = [
       { dy: -1, dx: 0 }, // 上
       { dy: 1, dx: 0 }, // 下
@@ -67,16 +68,20 @@ const Home = () => {
       { dy: 1, dx: -1 }, // 左斜め下
     ];
     directions.forEach((direction) => {
-      makeNum(newBoard, direction.dx, direction.dy);
+      makeNum(board, newBombmap, x, y, direction.dx, direction.dy);
     });
   };
 
-  const makeNum = (newBoard: number[][], dx: number, dy: number) => {
-    for (let y = 0; y <= 8; y++) {
-      for (let x = 0; x <= 8; x++) {
-        if (newBoard[y + dy][x + dx] === 1) {
-        }
-      }
+  const makeNum = (
+    board: number[][],
+    newBombmap: number[][],
+    x: number,
+    y: number,
+    dx: number,
+    dy: number,
+  ) => {
+    if (newBombmap[y + dy][x + dx] === 1) {
+      board[y][x] += 1;
     }
   };
 
@@ -89,14 +94,14 @@ const Home = () => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
   //爆弾の配置
-  const makeBomb = (newBoard: number[][], x: number, y: number) => {
+  const makeBomb = (newBombmap: number[][], x: number, y: number) => {
     let a, b;
     for (let i = 0; i <= 10; ) {
       a = getRandomInt(0, 8);
       b = getRandomInt(0, 8);
       if (a !== y || b !== x) {
-        if (newBoard[a][b] !== 1) {
-          newBoard[a][b] = 1;
+        if (newBombmap[a][b] !== 1) {
+          newBombmap[a][b] = 1;
           i++;
         }
       }
@@ -114,10 +119,10 @@ const Home = () => {
                 key={`${x}-${y}`}
                 onClick={() => clickHandler(x, y)}
               >
-                {color === 1 && (
+                {color === color && (
                   <div
                     className={styles.bombstyle}
-                    style={{ backgroundPosition: `${-30 * samplePos}px  0px` }}
+                    style={{ backgroundPosition: `${-30 * color}px  0px` }}
                   />
                 )}
               </div>
