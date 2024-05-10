@@ -28,6 +28,7 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
+
   const board = [
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -40,23 +41,20 @@ const Home = () => {
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
   ];
 
-  const [samplePos, setSamplePos] = useState(-1);
-
   const clickHandler = (x: number, y: number) => {
     const newBombmap = structuredClone(bombmap);
     const usermap = structuredClone(userInputs);
-    if (samplePos === -1) {
-      makeBomb(newBombmap, x, y);
-    }
+
+    firstMake(newBombmap, x, y);
     makeuserinputs(usermap, x, y);
-    allDirections(board, newBombmap, x, y);
     setUserInputs(usermap);
     setBombmap(newBombmap);
-    setSamplePos(board[y][x]);
-    console.log(bombmap);
+
+    console.log('bombmap:', newBombmap);
+    console.log('usermap:', usermap);
   };
   //爆弾の周りの数字
-  const allDirections = (board: number[][], newBombmap: number[][], x: number, y: number) => {
+  const allDirections = (usermap: number[][], newBombmap: number[][]) => {
     const directions = [
       { dy: -1, dx: 0 }, // 上
       { dy: 1, dx: 0 }, // 下
@@ -68,23 +66,22 @@ const Home = () => {
       { dy: 1, dx: -1 }, // 左斜め下
     ];
     directions.forEach((direction) => {
-      makeNum(board, newBombmap, x, y, direction.dx, direction.dy);
+      makeNum(usermap, newBombmap, direction.dx, direction.dy);
     });
   };
 
-  const makeNum = (
-    board: number[][],
-    newBombmap: number[][],
-    x: number,
-    y: number,
-    dx: number,
-    dy: number,
-  ) => {
-    if (newBombmap[y + dy][x + dx] === 1) {
-      board[y][x] += 1;
+  const makeNum = (usermap: number[][], newBombmap: number[][], dx: number, dy: number) => {
+    for (let p = 0; p <= 8; p++) {
+      for (let q = 0; q <= 8; q++) {
+        if (usermap[p][q] === 1) {
+          if (newBombmap[p + dy][q + dx]) {
+            board[p][q] += 1;
+          }
+        }
+      }
     }
   };
-
+  allDirections(userInputs, bombmap);
   //ユーザーの動作
   const makeuserinputs = (usermap: number[][], x: number, y: number) => {
     usermap[y][x] = 1;
@@ -94,6 +91,19 @@ const Home = () => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
   //爆弾の配置
+  const firstMake = (newBombmap: number[][], x: number, y: number) => {
+    let total = 0;
+    for (let p = 0; p <= 8; p++) {
+      for (let q = 0; q <= 8; q++) {
+        if (newBombmap[p][q] === 1) {
+          total++;
+        }
+      }
+    }
+    if (total === 0) {
+      makeBomb(newBombmap, x, y);
+    }
+  };
   const makeBomb = (newBombmap: number[][], x: number, y: number) => {
     let a, b;
     for (let i = 0; i <= 10; ) {
@@ -107,6 +117,7 @@ const Home = () => {
       }
     }
   };
+
   return (
     <div className={styles.container}>
       <div className={styles.fullboard}>
@@ -119,20 +130,15 @@ const Home = () => {
                 key={`${x}-${y}`}
                 onClick={() => clickHandler(x, y)}
               >
-                {color === color && (
-                  <div
-                    className={styles.bombstyle}
-                    style={{ backgroundPosition: `${-30 * color}px  0px` }}
-                  />
-                )}
+                <div
+                  className={styles.bombstyle}
+                  style={{ backgroundPosition: `${-30 * color}px  0px` }}
+                />
               </div>
             )),
           )}
         </div>
       </div>
-      <div style={{ backgroundPosition: `${-30 * samplePos}px  0px` }} />
-
-      <button onClick={() => setSamplePos((p) => (p + 1) % 14)}>sample</button>
     </div>
   );
 };
