@@ -8,12 +8,6 @@
   padding: 0 0.5rem;
 }
 
-.bombstyle {
-  width: 30px;
-  height: 30px;
-  background: url('~/src/assets/images/icons.png') no-repeat;
-}
-
 .fullboard {
   width: 312px;
   height: 370px;
@@ -47,4 +41,16 @@
   width: 32px;
   height: 32px;
   outline: white outset 3px;
+}
+
+.bombstyle {
+  width: 30px;
+  height: 30px;
+  background: url('~/src/assets/images/icons.png') no-repeat;
+}
+
+.whitestyle {
+  width: 30px;
+  height: 30px;
+  background-color: white;
 }

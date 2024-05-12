@@ -44,15 +44,17 @@ const Home = () => {
   const clickHandler = (x: number, y: number) => {
     const newBombmap = structuredClone(bombmap);
     const usermap = structuredClone(userInputs);
-
+    const element = document.getElementById(`${x}-${y}`);
+    if (element) {
+      element.style.backgroundColor = 'white';
+    }
     firstMake(newBombmap, x, y);
     makeuserinputs(usermap, x, y);
     setUserInputs(usermap);
     setBombmap(newBombmap);
-
-    console.log('bombmap:', newBombmap);
-    console.log('usermap:', usermap);
+    console.log(board);
   };
+
   //爆弾の周りの数字
   const allDirections = (usermap: number[][], newBombmap: number[][]) => {
     const directions = [
@@ -69,19 +71,33 @@ const Home = () => {
       makeNum(usermap, newBombmap, direction.dx, direction.dy);
     });
   };
-
-  const makeNum = (usermap: number[][], newBombmap: number[][], dx: number, dy: number) => {
-    for (let p = 0; p <= 8; p++) {
-      for (let q = 0; q <= 8; q++) {
-        if (usermap[p][q] === 1) {
-          if (newBombmap[p + dy][q + dx]) {
-            board[p][q] += 1;
+  //爆弾を踏んだ時
+  const playFailed = (newBombmap: number[][], p: number, q: number) => {
+    if (newBombmap[p][q] === 1) {
+      for (let j = 0; j <= 8; j++) {
+        for (let k = 0; k <= 8; k++) {
+          if (newBombmap[j][k] === 1) {
+            board[j][k] = 10;
           }
         }
       }
     }
   };
+  const makeNum = (usermap: number[][], newBombmap: number[][], dx: number, dy: number) => {
+    for (let p = 0; p <= 8; p++) {
+      for (let q = 0; q <= 8; q++) {
+        if (usermap[p][q] === 1) {
+          if (newBombmap[p + dy][q + dx] === 1) {
+            board[p][q] += 1;
+          }
+          playFailed(newBombmap, p, q);
+        }
+      }
+    }
+  };
+
   allDirections(userInputs, bombmap);
+
   //ユーザーの動作
   const makeuserinputs = (usermap: number[][], x: number, y: number) => {
     usermap[y][x] = 1;
@@ -106,7 +122,7 @@ const Home = () => {
   };
   const makeBomb = (newBombmap: number[][], x: number, y: number) => {
     let a, b;
-    for (let i = 0; i <= 10; ) {
+    for (let i = 0; i <= 9; ) {
       a = getRandomInt(0, 8);
       b = getRandomInt(0, 8);
       if (a !== y || b !== x) {
@@ -128,6 +144,7 @@ const Home = () => {
               <div
                 className={styles.cellstyle}
                 key={`${x}-${y}`}
+                id={`${x}-${y}`}
                 onClick={() => clickHandler(x, y)}
               >
                 <div
