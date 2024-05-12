@@ -55,6 +55,7 @@ const Home = () => {
     console.log(board);
   };
 
+  const chain = () => {};
   //爆弾の周りの数字
   const allDirections = (usermap: number[][], newBombmap: number[][]) => {
     const directions = [
@@ -87,7 +88,7 @@ const Home = () => {
     for (let p = 0; p <= 8; p++) {
       for (let q = 0; q <= 8; q++) {
         if (usermap[p][q] === 1) {
-          if (newBombmap[p + dy][q + dx] === 1) {
+          if (p + dy !== -1 && p + dy !== 9 && newBombmap[p + dy][q + dx] === 1) {
             board[p][q] += 1;
           }
           playFailed(newBombmap, p, q);
