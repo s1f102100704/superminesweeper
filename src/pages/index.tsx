@@ -77,34 +77,43 @@ const Home = () => {
       { dy: -1, dx: -1 }, // 左斜め上
       { dy: 1, dx: -1 }, // 左斜め下
     ];
-    directions.forEach((direction) => {
-      console.log('board', board);
-      console.log('usermap', usermap);
-      makeNum(usermap, newBombmap, direction.dx, direction.dy);
-      // chain(usermap, newBombmap, direction.dx, direction.dy);
-    });
-  };
-  //爆弾を踏んだ時
 
-  const makeNum = (usermap: number[][], newBombmap: number[][], dx: number, dy: number) => {
     for (let p = 0; p <= 8; p++) {
       for (let q = 0; q <= 8; q++) {
         if (usermap[p][q] === 1) {
-          if (p + dy !== -1 && p + dy !== 9 && newBombmap[p + dy][q + dx] === 1) {
-            board[p][q] += 1;
-          } else if (
-            p + dy !== -1 &&
-            p + dy !== 9 &&
-            newBombmap[p + dy][q + dx] === 0 &&
-            usermap[p + dy][q + dx] !== 1
-          ) {
-            usermap[p + dy][q + dx] = 1;
-            makeNum(usermap, newBombmap, dx, dy); //再起関数
-          }
-          playFailed(newBombmap, p, q);
+          directions.forEach((direction) => {
+            console.log('board', board);
+            console.log('usermap', usermap);
+            makeNum(usermap, newBombmap, p, q, direction.dx, direction.dy);
+            // chain(usermap, newBombmap, direction.dx, direction.dy);
+          });
         }
       }
     }
+  };
+  //爆弾を踏んだ時
+
+  const makeNum = (
+    usermap: number[][],
+    newBombmap: number[][],
+    p: number,
+    q: number,
+    dx: number,
+    dy: number,
+  ) => {
+    if (p + dy !== -1 && p + dy !== 9 && newBombmap[p + dy][q + dx] === 1) {
+      board[p][q] += 1;
+    }
+    // else if (
+    //   p + dy !== -1 &&
+    //   p + dy !== 9 &&
+    //   newBombmap[p + dy][q + dx] === 0 &&
+    //   usermap[p + dy][q + dx] !== 1
+    // ) {
+    //   usermap[p + dy][q + dx] = 1;
+    //   makeNum(usermap, newBombmap, dx, dy); //再起関数
+    // }
+    playFailed(newBombmap, p, q);
   };
 
   //ユーザーの動作
@@ -128,6 +137,7 @@ const Home = () => {
     if (total === 0) {
       makeBomb(newBombmap, x, y);
     }
+    console.log('爆弾:', newBombmap);
   };
   const makeBomb = (newBombmap: number[][], x: number, y: number) => {
     let a, b;
