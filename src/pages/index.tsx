@@ -2,7 +2,6 @@ import styles from './index.module.css';
 import { useState } from 'react';
 
 import React from 'react';
-import { setFlagsFromString } from 'v8';
 
 const Home = () => {
   const [bombmap, setBombmap] = useState([
@@ -56,6 +55,8 @@ const Home = () => {
   ];
   const newBombmap = structuredClone(bombmap);
   const usermap = structuredClone(userInputs);
+  let smileState = 11;
+
   const clickHandler = (x: number, y: number) => {
     first(usermap, newBombmap, x, y);
     clicked(usermap, x, y);
@@ -66,7 +67,12 @@ const Home = () => {
   //右クリック
   const rightClick = (event: React.MouseEvent, x: number, y: number) => {
     event.preventDefault();
-    usermap[y][x] = 3;
+    if (usermap[y][x] === 0) {
+      usermap[y][x] = 3;
+    } else if (usermap[y][x] === 3) {
+      usermap[y][x] = 0;
+    }
+
     setUserInputs(usermap);
   };
   console.log(board);
@@ -75,6 +81,7 @@ const Home = () => {
     for (let p = 0; p <= 8; p++) {
       for (let q = 0; q <= 8; q++) {
         if (usermap[p][q] === 1 && newBombmap[p][q] === 1) {
+          smileState = 13;
           fail = 10;
         }
       }
@@ -162,6 +169,7 @@ const Home = () => {
     const element = document.getElementById(`${q}-${p}`);
     if (element) {
       element.style.backgroundColor = 'white';
+      element.style.border = '2px solid black';
     }
   };
   //ますの周りのusermap がすべて1かどうかの判断
@@ -215,7 +223,16 @@ const Home = () => {
     <div className={styles.container}>
       <div className={styles.fullboard}>
         <div className={styles.boardstyle}>
-          <div className={styles.headBoard} />
+          <div className={styles.headBoard}>
+            <div className={styles.bombcount} />
+            <div className={styles.smilestyle}>
+              <div
+                className={styles.smile}
+                style={{ backgroundPosition: `${-40 * smileState}px  0px` }}
+              />
+            </div>
+            <div className={styles.timecount} />
+          </div>
           {board.map((row, y) =>
             row.map((color, x) => (
               <div

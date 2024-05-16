@@ -27,10 +27,47 @@
   position: relative;
   top: 16px;
   bottom: 16px;
+  display: flex;
   width: 288px;
-  height: 52px;
+  height: 60px;
 
   /* border: 2px solid white; */
+  outline: white outset 3px;
+}
+
+.bombcount {
+  position: relative;
+  top: 10px;
+  left: 10px;
+  width: 60px;
+  height: 40px;
+  outline: white outset 3px;
+}
+
+.smilestyle {
+  position: relative;
+  top: 10px;
+  left: 50px;
+  width: 60px;
+  height: 40px;
+  outline: white outset 3px;
+}
+
+.smile {
+  position: relative;
+  left: 10px;
+  width: 40px;
+  height: 40px;
+  background: url('~/src/assets/images/icons.png') no-repeat;
+  background-size: 560px 40px;
+}
+
+.timecount {
+  position: relative;
+  top: 10px;
+  left: 90px;
+  width: 60px;
+  height: 40px;
   outline: white outset 3px;
 }
 
@@ -47,10 +84,4 @@
   width: 30px;
   height: 30px;
   background: url('~/src/assets/images/icons.png') no-repeat;
-}
-
-.whitestyle {
-  width: 30px;
-  height: 30px;
-  background-color: white;
 }
