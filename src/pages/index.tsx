@@ -61,6 +61,26 @@ const Home = () => {
     console.log('usermap', usermap);
     setUserInputs(usermap);
   };
+
+  const playFailed = (usermap: number[][], newBombmap: number[][]) => {
+    let fail = -1;
+    for (let p = 0; p <= 8; p++) {
+      for (let q = 0; q <= 8; q++) {
+        if (usermap[p][q] === 1 && newBombmap[p][q] === 1) {
+          fail = 10;
+        }
+      }
+    }
+    for (let p = 0; p <= 8; p++) {
+      for (let q = 0; q <= 8; q++) {
+        if (newBombmap[p][q] === 1) {
+          board[p][q] = fail;
+        }
+      }
+    }
+  };
+  playFailed(usermap, newBombmap);
+  //空白連鎖
   const judgeUsermap = (usermap: number[][], newBombmap: number[][]) => {
     for (let p = 0; p <= 8; p++) {
       for (let q = 0; q <= 8; q++) {
@@ -102,6 +122,7 @@ const Home = () => {
   const clicked = (usermap: number[][], x: number, y: number) => {
     usermap[y][x] = 1;
   };
+  //周りに爆弾があるかの判定
   const makeNum = (
     usermap: number[][],
     newBombmap: number[][],
