@@ -1,6 +1,7 @@
-import { withRouter } from 'next/router';
 import styles from './index.module.css';
 import { useState } from 'react';
+
+import React from 'react';
 
 const Home = () => {
   const [bombmap, setBombmap] = useState([
@@ -61,7 +62,13 @@ const Home = () => {
     console.log('usermap', usermap);
     setUserInputs(usermap);
   };
-
+  //右クリック
+  const rightClick = (event: React.MouseEvent, x: number, y: number) => {
+    event.preventDefault();
+    usermap[y][x] = 3;
+    setUserInputs(usermap);
+    console.log('aaa');
+  };
   const playFailed = (usermap: number[][], newBombmap: number[][]) => {
     let fail = -1;
     for (let p = 0; p <= 8; p++) {
@@ -208,6 +215,7 @@ const Home = () => {
                 key={`${x}-${y}`}
                 id={`${x}-${y}`}
                 onClick={() => clickHandler(x, y)}
+                onContextMenu={() => rightClick(event, x, y)}
               >
                 <div
                   className={styles.bombstyle}
