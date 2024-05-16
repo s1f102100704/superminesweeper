@@ -78,13 +78,25 @@ const Home = () => {
         }
       }
     }
+
     for (let p = 0; p <= 8; p++) {
       for (let q = 0; q <= 8; q++) {
         if (usermap[p][q] === 1) {
           white(p, q);
+          if (board[p][q] === -1) {
+            let ar = 0;
+            directions.forEach((direction) => {
+              ar += around(usermap, q, p, direction.dx, direction.dy);
+              console.log('ar', ar);
+            });
+            if (ar !== 8) {
+              judgeUsermap(usermap, newBombmap);
+            }
+          }
         }
       }
     }
+    console.log('board', board);
   };
   //user側の処理
   const clicked = (usermap: number[][], x: number, y: number) => {
@@ -120,11 +132,22 @@ const Home = () => {
       element.style.backgroundColor = 'white';
     }
   };
+  //ますの周りのusermap がすべて1かどうかの判断
+  const around = (usermap: number[][], x: number, y: number, dx: number, dy: number) => {
+    let aro = 0;
+    if (y + dy >= 0 && y + dy <= 8 && usermap[y + dy][x + dx] === 1) {
+      aro = 1;
+    }
+    if (y + dy < 0 || y + dy > 8 || x + dx < 0 || x + dx > 8) {
+      aro = 1;
+    }
+    return aro;
+  };
   judgeUsermap(usermap, newBombmap);
 
   //爆弾を作る
   const makeBomb = (newBombmap: number[][], x: number, y: number) => {
-    for (let i = 0; i <= 10; ) {
+    for (let i = 0; i <= 9; ) {
       const p = getRandomInt();
       const q = getRandomInt();
       if (newBombmap[p][q] !== 1 && (p !== y || q !== x)) {
