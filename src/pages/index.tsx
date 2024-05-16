@@ -2,6 +2,7 @@ import styles from './index.module.css';
 import { useState } from 'react';
 
 import React from 'react';
+import { setFlagsFromString } from 'v8';
 
 const Home = () => {
   const [bombmap, setBombmap] = useState([
@@ -67,8 +68,8 @@ const Home = () => {
     event.preventDefault();
     usermap[y][x] = 3;
     setUserInputs(usermap);
-    console.log('aaa');
   };
+  console.log(board);
   const playFailed = (usermap: number[][], newBombmap: number[][]) => {
     let fail = -1;
     for (let p = 0; p <= 8; p++) {
@@ -121,6 +122,9 @@ const Home = () => {
             }
           }
         }
+        if (usermap[p][q] === 3) {
+          flag(q, p);
+        }
       }
     }
     console.log('board', board);
@@ -170,6 +174,10 @@ const Home = () => {
       aro = 1;
     }
     return aro;
+  };
+  //旗立てる
+  const flag = (x: number, y: number) => {
+    board[y][x] = 9;
   };
   judgeUsermap(usermap, newBombmap);
 
