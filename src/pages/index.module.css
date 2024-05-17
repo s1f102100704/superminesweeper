@@ -41,6 +41,9 @@
   left: 10px;
   width: 60px;
   height: 40px;
+  font-size: 30px;
+  color: red;
+  background-color: black;
   outline: white outset 3px;
 }
 
@@ -68,6 +71,7 @@
   left: 90px;
   width: 60px;
   height: 40px;
+  background-color: black;
   outline: white outset 3px;
 }
 

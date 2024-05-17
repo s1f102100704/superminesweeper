@@ -1,6 +1,6 @@
 import styles from './index.module.css';
 import { useState } from 'react';
-
+import { useEffect, useRef } from 'react';
 import React from 'react';
 
 const Home = () => {
@@ -31,6 +31,8 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
+  const [time, setTime] = useState(0);
+  const intervalRef = useRef<number | null>(null);
 
   const board = [
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -60,8 +62,7 @@ const Home = () => {
   const clickHandler = (x: number, y: number) => {
     first(usermap, newBombmap, x, y);
     clicked(usermap, x, y);
-    console.log('爆弾', newBombmap);
-    console.log('usermap', usermap);
+
     setUserInputs(usermap);
   };
   //右クリック
@@ -75,7 +76,6 @@ const Home = () => {
 
     setUserInputs(usermap);
   };
-  console.log(board);
   const playFailed = (usermap: number[][], newBombmap: number[][]) => {
     let fail = -1;
     for (let p = 0; p <= 8; p++) {
@@ -107,8 +107,6 @@ const Home = () => {
             directions.forEach((direction) => {
               nearWhite(usermap, newBombmap, q, p, direction.dx, direction.dy);
             });
-
-            console.log('use', usermap);
           }
         }
       }
@@ -122,7 +120,6 @@ const Home = () => {
             let ar = 0;
             directions.forEach((direction) => {
               ar += around(usermap, q, p, direction.dx, direction.dy);
-              console.log('ar', ar);
             });
             if (ar !== 8) {
               judgeUsermap(usermap, newBombmap);
@@ -134,7 +131,6 @@ const Home = () => {
         }
       }
     }
-    console.log('board', board);
   };
   //user側の処理
   const clicked = (usermap: number[][], x: number, y: number) => {
@@ -216,15 +212,38 @@ const Home = () => {
     }
     if (count === 0) {
       makeBomb(newBombmap, x, y);
+      return true;
     }
   };
+  useEffect(() => {
+    let count = 0;
+    console.log('usermap', usermap);
+    for (let p = 0; p <= 8; p++) {
+      for (let q = 0; q <= 8; q++) {
+        if (usermap[p][q] === 1) {
+          count += 1;
+        }
+      }
+    }
+    if (count > 0) {
+      intervalRef.current = window.setInterval(() => {
+        setTime((prevCount) => prevCount + 1);
+      }, 1000);
+
+      return () => {
+        if (intervalRef.current !== null) {
+          clearInterval(intervalRef.current);
+        }
+      };
+    }
+  });
 
   return (
     <div className={styles.container}>
       <div className={styles.fullboard}>
         <div className={styles.boardstyle}>
           <div className={styles.headBoard}>
-            <div className={styles.bombcount} />
+            <div className={styles.bombcount}>{time}</div>
             <div className={styles.smilestyle}>
               <div
                 className={styles.smile}
