@@ -34,6 +34,7 @@ const Home = () => {
   const [time, setTime] = useState(0);
   const intervalRef = useRef<number | null>(null);
 
+  let bombcount = 10;
   const board = [
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -215,9 +216,20 @@ const Home = () => {
       return true;
     }
   };
+  const bombCount = (usermap: number[][], count: number) => {
+    for (let p = 0; p <= 8; p++) {
+      for (let q = 0; q <= 8; q++) {
+        if (usermap[p][q] === 3) {
+          count -= 1;
+        }
+      }
+    }
+    bombcount = count;
+  };
+  bombCount(usermap, bombcount);
   useEffect(() => {
     let count = 0;
-    console.log('usermap', usermap);
+
     for (let p = 0; p <= 8; p++) {
       for (let q = 0; q <= 8; q++) {
         if (usermap[p][q] === 1) {
@@ -243,14 +255,14 @@ const Home = () => {
       <div className={styles.fullboard}>
         <div className={styles.boardstyle}>
           <div className={styles.headBoard}>
-            <div className={styles.bombcount}>{time}</div>
+            <div className={styles.bombcount}>{bombcount}</div>
             <div className={styles.smilestyle}>
               <div
                 className={styles.smile}
                 style={{ backgroundPosition: `${-40 * smileState}px  0px` }}
               />
             </div>
-            <div className={styles.timecount} />
+            <div className={styles.timecount}>{time}</div>
           </div>
           {board.map((row, y) =>
             row.map((color, x) => (
