@@ -26,17 +26,17 @@
 
 .easy {
   width: 312px;
-  height: 370px;
+  height: 386px;
 }
 
 .medium {
-  width: 536px;
-  height: 594px;
+  width: 556px;
+  height: 610px;
 }
 
 .hard {
-  width: 312px;
-  height: 370px;
+  width: 1058px;
+  height: 610px;
 }
 
 .boardstyle {
@@ -50,11 +50,11 @@
 .headBoard {
   position: relative;
   top: 16px;
-  bottom: 16px;
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 98%;
   height: 60px;
+  margin-bottom: 16px;
 
   /* border: 2px solid white; */
   outline: white outset 3px;
