@@ -262,10 +262,22 @@ const Home = () => {
         }
       };
     }
-  });
+  }, [usermap, newBombmap]);
 
   return (
     <div className={styles.container}>
+      <div className={styles.allDifficulcy}>
+        <div id={styles.selectEasy} className={styles.difficulcy}>
+          初級
+        </div>
+        <div id={styles.selectMid} className={styles.difficulcy}>
+          中級
+        </div>
+        <div id={styles.selectHard} className={styles.difficulcy}>
+          上級
+        </div>
+      </div>
+
       <div className={styles.fullboard}>
         <div className={styles.boardstyle}>
           <div className={styles.headBoard}>

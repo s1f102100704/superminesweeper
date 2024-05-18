@@ -8,6 +8,17 @@
   padding: 0 0.5rem;
 }
 
+.allDifficulcy {
+  display: flex;
+  width: 320px;
+  height: 40px;
+}
+
+.difficulcy {
+  width: 33%;
+  text-align: center;
+}
+
 .fullboard {
   width: 312px;
   height: 370px;
@@ -18,8 +29,8 @@
 .boardstyle {
   position: relative;
   left: 12px;
-  width: 288px;
-  height: 370px;
+  width: 93%;
+  height: 100%;
   background-color: gray;
 }
 
@@ -28,7 +39,8 @@
   top: 16px;
   bottom: 16px;
   display: flex;
-  width: 288px;
+  justify-content: space-between;
+  width: 100%;
   height: 60px;
 
   /* border: 2px solid white; */
@@ -38,7 +50,7 @@
 .bombcount {
   position: relative;
   top: 10px;
-  left: 10px;
+  left: 5%;
   width: 60px;
   height: 40px;
   font-size: 30px;
@@ -50,7 +62,6 @@
 .smilestyle {
   position: relative;
   top: 10px;
-  left: 50px;
   width: 60px;
   height: 40px;
   outline: white outset 3px;
@@ -68,7 +79,7 @@
 .timecount {
   position: relative;
   top: 10px;
-  left: 90px;
+  right: 5%;
   width: 60px;
   height: 40px;
   font-size: 30px;
