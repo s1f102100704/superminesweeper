@@ -35,6 +35,8 @@ const Home = () => {
   const intervalRef = useRef<number | null>(null);
 
   let bombcount = 10;
+  const bombNumber = 10;
+
   const board = [
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -188,7 +190,7 @@ const Home = () => {
 
   //爆弾を作る
   const makeBomb = (newBombmap: number[][], x: number, y: number) => {
-    for (let i = 0; i <= 9; ) {
+    for (let i = 0; i <= bombNumber - 1; ) {
       const p = getRandomInt();
       const q = getRandomInt();
       if (newBombmap[p][q] !== 1 && (p !== y || q !== x)) {
@@ -217,27 +219,39 @@ const Home = () => {
     }
   };
   const bombCount = (usermap: number[][], count: number) => {
+    let co = count;
     for (let p = 0; p <= 8; p++) {
       for (let q = 0; q <= 8; q++) {
         if (usermap[p][q] === 3) {
-          count -= 1;
+          co -= 1;
         }
       }
     }
-    bombcount = count;
+    bombcount = co;
   };
   bombCount(usermap, bombcount);
   useEffect(() => {
-    let count = 0;
-
+    let usercount = 0; //クリック
+    let bombuser = 0; //爆弾のクリック
+    let nocb = 0; //爆弾をクリックしていない数
+    let flagbomb = 0; //爆弾の箇所が旗
     for (let p = 0; p <= 8; p++) {
       for (let q = 0; q <= 8; q++) {
         if (usermap[p][q] === 1) {
-          count += 1;
+          usercount += 1;
+        }
+        if (usermap[p][q] === 1 && newBombmap[p][q] === 1) {
+          bombuser = 1;
+        }
+        if (usermap[p][q] === 0 && newBombmap[p][q] === 1) {
+          nocb += 1;
+        }
+        if (usermap[p][q] === 3 && newBombmap[p][q] === 1) {
+          flagbomb += 1;
         }
       }
     }
-    if (count > 0) {
+    if (usercount > 0 && bombuser !== 1 && bombNumber !== flagbomb && bombNumber === nocb) {
       intervalRef.current = window.setInterval(() => {
         setTime((prevCount) => prevCount + 1);
       }, 1000);
