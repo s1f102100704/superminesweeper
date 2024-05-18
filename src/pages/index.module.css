@@ -20,10 +20,23 @@
 }
 
 .fullboard {
-  width: 312px;
-  height: 370px;
   background-color: gray;
   outline: white outset 3px;
+}
+
+.easy {
+  width: 312px;
+  height: 370px;
+}
+
+.medium {
+  width: 536px;
+  height: 594px;
+}
+
+.hard {
+  width: 312px;
+  height: 370px;
 }
 
 .boardstyle {

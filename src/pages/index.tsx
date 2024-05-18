@@ -4,6 +4,9 @@ import { useEffect, useRef } from 'react';
 import React from 'react';
 
 const Home = () => {
+  type Difficulty = 'easy' | 'medium' | 'hard';
+
+  const [difficulty, setDifficulty] = useState<Difficulty>('easy');
   const [bombmap, setBombmap] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -37,17 +40,7 @@ const Home = () => {
   let bombcount = 10;
   const bombNumber = 10;
 
-  const board = [
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-  ];
+  const board: number[][] = [];
   const directions = [
     { dy: -1, dx: 0 }, // 上
     { dy: 1, dx: 0 }, // 下
@@ -58,6 +51,8 @@ const Home = () => {
     { dy: -1, dx: -1 }, // 左斜め上
     { dy: 1, dx: -1 }, // 左斜め下
   ];
+  let boardwidth: number;
+  let boardheight: number;
   const newBombmap = structuredClone(bombmap);
   const usermap = structuredClone(userInputs);
   let smileState = 11;
@@ -68,6 +63,28 @@ const Home = () => {
 
     setUserInputs(usermap);
   };
+  const makeBoard = (width: number, height: number) => {
+    for (let p = 0; p < height; p++) {
+      board.push([]);
+      for (let q = 0; q < height; q++) {
+        board[p][q] = -1;
+      }
+    }
+  };
+  if (difficulty === 'easy') {
+    boardwidth = 9;
+    boardheight = 9;
+    makeBoard(boardwidth, boardheight);
+  } else if (difficulty === 'medium') {
+    boardwidth = 16;
+    boardheight = 16;
+    makeBoard(boardwidth, boardheight);
+  } else if (difficulty === 'hard') {
+    boardwidth = 30;
+    boardheight = 16;
+    makeBoard(boardwidth, boardheight);
+  }
+
   //右クリック
   const rightClick = (event: React.MouseEvent, x: number, y: number) => {
     event.preventDefault();
@@ -81,16 +98,19 @@ const Home = () => {
   };
   const playFailed = (usermap: number[][], newBombmap: number[][]) => {
     let fail = -1;
-    for (let p = 0; p <= 8; p++) {
-      for (let q = 0; q <= 8; q++) {
+    if (boardheight === 16) {
+      console.log(usermap[9][0]);
+    }
+    for (let p = 0; p < boardheight; p++) {
+      for (let q = 0; q < boardwidth; q++) {
         if (usermap[p][q] === 1 && newBombmap[p][q] === 1) {
           smileState = 13;
           fail = 10;
         }
       }
     }
-    for (let p = 0; p <= 8; p++) {
-      for (let q = 0; q <= 8; q++) {
+    for (let p = 0; p < boardheight; p++) {
+      for (let q = 0; q < boardwidth; q++) {
         if (newBombmap[p][q] === 1) {
           board[p][q] = fail;
         }
@@ -100,8 +120,8 @@ const Home = () => {
   playFailed(usermap, newBombmap);
   //空白連鎖
   const judgeUsermap = (usermap: number[][], newBombmap: number[][]) => {
-    for (let p = 0; p <= 8; p++) {
-      for (let q = 0; q <= 8; q++) {
+    for (let p = 0; p < boardheight; p++) {
+      for (let q = 0; q < boardwidth; q++) {
         if (usermap[p][q] === 1 && board[p][q] === -1) {
           directions.forEach((direction) => {
             makeNum(usermap, newBombmap, q, p, direction.dx, direction.dy);
@@ -115,8 +135,8 @@ const Home = () => {
       }
     }
 
-    for (let p = 0; p <= 8; p++) {
-      for (let q = 0; q <= 8; q++) {
+    for (let p = 0; p < boardheight; p++) {
+      for (let q = 0; q < boardwidth; q++) {
         if (usermap[p][q] === 1) {
           white(p, q);
           if (board[p][q] === -1) {
@@ -148,7 +168,7 @@ const Home = () => {
     dx: number,
     dy: number,
   ) => {
-    if (y + dy >= 0 && y + dy <= 8 && newBombmap[y + dy][x + dx] === 1) {
+    if (y + dy >= 0 && y + dy < boardheight && newBombmap[y + dy][x + dx] === 1) {
       board[y][x] += 1;
     }
   };
@@ -160,7 +180,7 @@ const Home = () => {
     dx: number,
     dy: number,
   ) => {
-    if (y + dy >= 0 && y + dy <= 8 && newBombmap[y + dy][x + dx] !== 1) {
+    if (y + dy >= 0 && y + dy < boardheight && newBombmap[y + dy][x + dx] !== 1) {
       clicked(usermap, x + dx, y + dy);
     }
   };
@@ -174,10 +194,10 @@ const Home = () => {
   //ますの周りのusermap がすべて1かどうかの判断
   const around = (usermap: number[][], x: number, y: number, dx: number, dy: number) => {
     let aro = 0;
-    if (y + dy >= 0 && y + dy <= 8 && usermap[y + dy][x + dx] === 1) {
+    if (y + dy >= 0 && y + dy < boardheight && usermap[y + dy][x + dx] === 1) {
       aro = 1;
     }
-    if (y + dy < 0 || y + dy > 8 || x + dx < 0 || x + dx > 8) {
+    if (y + dy < 0 || y + dy >= boardheight || x + dx < 0 || x + dx >= boardwidth) {
       aro = 1;
     }
     return aro;
@@ -206,8 +226,8 @@ const Home = () => {
   //初めてのクリック
   const first = (usermap: number[][], newBombmap: number[][], x: number, y: number) => {
     let count = 0;
-    for (let p = 0; p <= 8; p++) {
-      for (let q = 0; q <= 8; q++) {
+    for (let p = 0; p < boardheight; p++) {
+      for (let q = 0; q < boardwidth; q++) {
         if (usermap[p][q] === 1) {
           count += 1;
         }
@@ -220,8 +240,8 @@ const Home = () => {
   };
   const bombCount = (usermap: number[][], count: number) => {
     let co = count;
-    for (let p = 0; p <= 8; p++) {
-      for (let q = 0; q <= 8; q++) {
+    for (let p = 0; p < boardheight; p++) {
+      for (let q = 0; q < boardwidth; q++) {
         if (usermap[p][q] === 3) {
           co -= 1;
         }
@@ -235,8 +255,8 @@ const Home = () => {
     let bombuser = 0; //爆弾のクリック
     let nocb = 0; //爆弾をクリックしていない数
     let flagbomb = 0; //爆弾の箇所が旗
-    for (let p = 0; p <= 8; p++) {
-      for (let q = 0; q <= 8; q++) {
+    for (let p = 0; p < boardheight; p++) {
+      for (let q = 0; q < boardwidth; q++) {
         if (usermap[p][q] === 1) {
           usercount += 1;
         }
@@ -267,18 +287,18 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <div className={styles.allDifficulcy}>
-        <div id={styles.selectEasy} className={styles.difficulcy}>
+        <div className={styles.difficulcy} onClick={() => setDifficulty('easy')}>
           初級
         </div>
-        <div id={styles.selectMid} className={styles.difficulcy}>
+        <div className={styles.difficulcy} onClick={() => setDifficulty('medium')}>
           中級
         </div>
-        <div id={styles.selectHard} className={styles.difficulcy}>
+        <div className={styles.difficulcy} onClick={() => setDifficulty('hard')}>
           上級
         </div>
       </div>
 
-      <div className={styles.fullboard}>
+      <div className={`${styles.fullboard} ${styles[difficulty]}`}>
         <div className={styles.boardstyle}>
           <div className={styles.headBoard}>
             <div className={styles.bombcount}>{bombcount}</div>
