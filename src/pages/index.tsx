@@ -93,8 +93,6 @@ const Home = () => {
           element.style.backgroundColor = '';
 
           element.style.border = 'none';
-
-          console.log(element.style.outline);
         }
       }
     }
@@ -298,8 +296,12 @@ const Home = () => {
     let bombuser = 0; //爆弾のクリック
     let nocb = 0; //爆弾をクリックしていない数
     let flagbomb = 0; //爆弾の箇所が旗
+    let noclick = 0;
     for (let p = 0; p < boardheight; p++) {
       for (let q = 0; q < boardwidth; q++) {
+        if (usermap[p][q] === 0) {
+          noclick += 1;
+        }
         if (usermap[p][q] === 1) {
           usercount += 1;
         }
@@ -314,17 +316,23 @@ const Home = () => {
         }
       }
     }
-    if (usercount > 0 && bombuser !== 1 && bombNumber !== flagbomb && bombNumber === nocb) {
-      intervalRef.current = window.setInterval(() => {
-        setTime((prevCount) => prevCount + 1);
-      }, 1000);
 
-      return () => {
-        if (intervalRef.current !== null) {
-          clearInterval(intervalRef.current);
-        }
-      };
-    }
+    intervalRef.current = window.setInterval(() => {
+      if (usercount > 0 && bombuser !== 1 && bombNumber !== flagbomb && bombNumber === nocb) {
+        setTime((prevCount) => prevCount + 1);
+      }
+
+      if (noclick === boardheight * boardwidth) {
+        console.log('A');
+        setTime(0);
+      }
+    }, 1000);
+
+    return () => {
+      if (intervalRef.current !== null) {
+        clearInterval(intervalRef.current);
+      }
+    };
   });
 
   return (
