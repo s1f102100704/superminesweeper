@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import React from 'react';
 
 const Home = () => {
-  type Difficulty = 'easy' | 'medium' | 'hard';
+  type Difficulty = 'easy' | 'medium' | 'hard' | 'custom';
 
   const [difficulty, setDifficulty] = useState<Difficulty>('easy');
   const [bombmap, setBombmap] = useState([
@@ -74,6 +74,14 @@ const Home = () => {
   const hardMap = () => {
     setDifficulty('hard');
     list(30, 16);
+  };
+  const customMap = () => {
+    setDifficulty('custom');
+    customDocument();
+  };
+
+  const customDocument = () => {
+    document.addEventListener('DOMContentLoaded', () => {});
   };
   //usermapとnewBombmapの設定
   const list = (wid: number, hei: number) => {
@@ -347,8 +355,24 @@ const Home = () => {
         <div className={styles.difficulcy} onClick={() => hardMap()}>
           上級
         </div>
+        <div className={styles.difficulcy} onClick={() => customMap()}>
+          カスタム
+        </div>
       </div>
-
+      <div className={styles.allCustom}>
+        <div className={styles.form}>
+          <label htmlFor="numberInput">幅:</label>
+          <input className={styles.inp} type="number" id="numberInput" />
+        </div>
+        <div className={styles.form}>
+          <label htmlFor="numberInput">高さ:</label>
+          <input className={styles.inp} type="number" id="numberInput" />
+        </div>
+        <div className={styles.form}>
+          <label htmlFor="numberInput">爆弾数:</label>
+          <input className={styles.inp} type="number" id="numberInput" />
+        </div>
+      </div>
       <div id="fullboard" className={`${styles.fullboard} ${styles[difficulty]}`}>
         <div id="board" className={styles.boardstyle}>
           <div className={styles.headBoard}>

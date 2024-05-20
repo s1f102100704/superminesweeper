@@ -15,7 +15,7 @@
 }
 
 .difficulcy {
-  width: 33%;
+  width: 25%;
   text-align: center;
 }
 
@@ -37,6 +37,39 @@
 .hard {
   width: 1058px;
   height: 610px;
+}
+
+.custom {
+  width: 1058px;
+  height: 610px;
+}
+
+.allCustom {
+  display: flex;
+  justify-content: space-between;
+  width: 360px;
+  height: 60px;
+  margin-bottom: 12p;
+}
+
+.form {
+  width: 120px;
+}
+
+.inp::-webkit-outer-spin-button,
+.inp::-webkit-inner-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+#numberinput {
+  padding: 5px;
+  margin: 10px;
+  font-size: 1rem;
+}
+
+.inp {
+  width: 50px;
 }
 
 .boardstyle {
