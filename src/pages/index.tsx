@@ -5,8 +5,31 @@ import React from 'react';
 
 const Home = () => {
   type Difficulty = 'easy' | 'medium' | 'hard' | 'custom';
-
   const [difficulty, setDifficulty] = useState<Difficulty>('easy');
+  type whbData = {
+    width: number;
+    height: number;
+    bombcount: number;
+  };
+  const whbData = {
+    width: 0,
+    height: 0,
+    bombcount: 0,
+  };
+  const [data, setData] = useState<whbData>();
+  const onChangeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
+    whbData.width = parseInt(e.target.value);
+  };
+  const onChangeHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
+    whbData.height = parseInt(e.target.value);
+  };
+  const onChangeBomb = (e: React.ChangeEvent<HTMLInputElement>) => {
+    whbData.bombcount = parseInt(e.target.value);
+  };
+  const buttonClick = (): void => {
+    setData({ width: whbData.width, height: whbData.height, bombcount: whbData.bombcount });
+  };
+  console.log(data);
   const [bombmap, setBombmap] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -85,7 +108,6 @@ const Home = () => {
   };
   //usermapとnewBombmapの設定
   const list = (wid: number, hei: number) => {
-    console.log('boardheight:', boardheight);
     const bo: (0 | 1 | 2 | 3)[][] = [];
     for (let p = 0; p < hei; p++) {
       bo.push([]);
@@ -122,7 +144,6 @@ const Home = () => {
     bombcount = 10;
     makeBoard(boardwidth, boardheight);
   } else if (difficulty === 'medium') {
-    console.log('medium');
     boardwidth = 16;
     boardheight = 16;
     bombNumber = 40;
@@ -282,7 +303,6 @@ const Home = () => {
       }
     }
     if (count === 0) {
-      console.log(newBombmap);
       makeBomb(newBombmap, x, y);
       return true;
     }
@@ -331,7 +351,6 @@ const Home = () => {
       }
 
       if (noclick === boardheight * boardwidth) {
-        console.log('A');
         setTime(0);
       }
     }, 1000);
@@ -362,16 +381,37 @@ const Home = () => {
       <div className={styles.allCustom}>
         <div className={styles.form}>
           <label htmlFor="numberInput">幅:</label>
-          <input className={styles.inp} type="number" id="numberInput" />
+          <input
+            className={styles.inp}
+            type="number"
+            id="numberInput"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeWidth(e)}
+          />
         </div>
         <div className={styles.form}>
           <label htmlFor="numberInput">高さ:</label>
-          <input className={styles.inp} type="number" id="numberInput" />
+          <input
+            className={styles.inp}
+            type="number"
+            id="numberInput"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeHeight(e)}
+          />
         </div>
         <div className={styles.form}>
           <label htmlFor="numberInput">爆弾数:</label>
-          <input className={styles.inp} type="number" id="numberInput" />
+          <input
+            className={styles.inp}
+            type="number"
+            id="numberInput"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeBomb(e)}
+          />
         </div>
+        <input
+          className={styles.button}
+          type="button"
+          value="更新"
+          onClick={(): void => buttonClick()}
+        />
       </div>
       <div id="fullboard" className={`${styles.fullboard} ${styles[difficulty]}`}>
         <div id="board" className={styles.boardstyle}>
