@@ -85,7 +85,19 @@ const Home = () => {
         bo[p][q] = 0;
       }
     }
+    for (let p = 0; p < hei; p++) {
+      for (let q = 0; q < wid; q++) {
+        const element = document.getElementById(`${q}-${p}`);
 
+        if (element) {
+          element.style.backgroundColor = '';
+
+          element.style.border = 'none';
+
+          console.log(element.style.outline);
+        }
+      }
+    }
     setUserInputs(bo);
     setBombmap(bo);
   };
@@ -329,8 +341,8 @@ const Home = () => {
         </div>
       </div>
 
-      <div className={`${styles.fullboard} ${styles[difficulty]}`}>
-        <div className={styles.boardstyle}>
+      <div id="fullboard" className={`${styles.fullboard} ${styles[difficulty]}`}>
+        <div id="board" className={styles.boardstyle}>
           <div className={styles.headBoard}>
             <div className={styles.bombcount}>{bombcount}</div>
             <div className={styles.smilestyle}>
