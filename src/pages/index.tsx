@@ -105,7 +105,7 @@ const Home = () => {
     const element: HTMLElement | null = document.getElementById('fullboard');
     if (element) {
       element.style.width = `${(whbData.width * 32 * 100) / 93 + 24}px`;
-      element.style.height = `${(whbData.height * 32100) / 93 + 24}px`;
+      element.style.height = `${(whbData.height * 32 * 100) / 93 + 24 + 60}px`;
     }
 
     list(whbData.width, whbData.height);
@@ -143,6 +143,7 @@ const Home = () => {
         board[p][q] = -1;
       }
     }
+    console.log(board, usermap);
   };
   if (difficulty === 'easy') {
     boardwidth = 9;
