@@ -12,9 +12,9 @@ const Home = () => {
     bombcount: number;
   };
   const whbData = {
-    width: 0,
-    height: 0,
-    bombcount: 0,
+    width: 30,
+    height: 30,
+    bombcount: 15,
   };
   const [data, setData] = useState<whbData>(whbData);
   const onChangeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,16 +97,18 @@ const Home = () => {
   };
   const customMap = () => {
     setDifficulty('custom');
+    list(30, 30);
     customDocument();
   };
   const buttonClick = (): void => {
     setData({ width: whbData.width, height: whbData.height, bombcount: whbData.bombcount });
-    list(data.width, data.height);
-    boardwidth = data.width;
-    boardheight = data.height;
-    bombNumber = data.bombcount;
-    bombcount = data.bombcount;
-    makeBoard(boardwidth, boardheight);
+    const element: HTMLElement | null = document.getElementById('fullboard');
+    if (element) {
+      element.style.width = `${(whbData.width * 32 * 100) / 93 + 24}px`;
+      element.style.height = `${(whbData.height * 32100) / 93 + 24}px`;
+    }
+
+    list(whbData.width, whbData.height);
   };
   const customDocument = () => {
     document.addEventListener('DOMContentLoaded', () => {});
@@ -131,7 +133,6 @@ const Home = () => {
         }
       }
     }
-    console.log(bo);
     setUserInputs(bo);
     setBombmap(bo);
   };
@@ -161,6 +162,12 @@ const Home = () => {
     bombNumber = 99;
     bombcount = 99;
     makeBoard(boardwidth, boardheight);
+  } else if (difficulty === 'custom') {
+    boardwidth = data.width;
+    boardheight = data.height;
+    bombNumber = data.bombcount;
+    bombcount = data.bombcount;
+    makeBoard(boardwidth, boardheight);
   }
   //右クリック
   const rightClick = (event: React.MouseEvent, x: number, y: number) => {
@@ -175,6 +182,7 @@ const Home = () => {
   };
   const playFailed = (usermap: number[][], newBombmap: number[][]) => {
     let fail = -1;
+    // console.log(boardheight, boardwidth);
 
     for (let p = 0; p < boardheight; p++) {
       for (let q = 0; q < boardwidth; q++) {
