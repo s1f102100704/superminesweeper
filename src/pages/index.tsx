@@ -85,18 +85,34 @@ const Home = () => {
 
   const easyMap = () => {
     setDifficulty('easy');
+    const element: HTMLElement | null = document.getElementById('fullboard');
+    if (element) {
+      element.style.width = '';
+      element.style.height = '';
+    }
     list(9, 9);
   };
   const midMap = () => {
     setDifficulty('medium');
+    const element: HTMLElement | null = document.getElementById('fullboard');
+    if (element) {
+      element.style.width = '';
+      element.style.height = '';
+    }
     list(16, 16);
   };
   const hardMap = () => {
     setDifficulty('hard');
+    const element: HTMLElement | null = document.getElementById('fullboard');
+    if (element) {
+      element.style.width = '';
+      element.style.height = '';
+    }
     list(30, 16);
   };
   const customMap = () => {
     setDifficulty('custom');
+
     list(30, 30);
     customDocument();
   };
@@ -143,7 +159,6 @@ const Home = () => {
         board[p][q] = -1;
       }
     }
-    console.log(board, usermap);
   };
   if (difficulty === 'easy') {
     boardwidth = 9;
@@ -183,7 +198,6 @@ const Home = () => {
   };
   const playFailed = (usermap: number[][], newBombmap: number[][]) => {
     let fail = -1;
-    // console.log(boardheight, boardwidth);
 
     for (let p = 0; p < boardheight; p++) {
       for (let q = 0; q < boardwidth; q++) {
