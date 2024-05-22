@@ -16,7 +16,7 @@ const Home = () => {
     height: 0,
     bombcount: 0,
   };
-  const [data, setData] = useState<whbData>();
+  const [data, setData] = useState<whbData>(whbData);
   const onChangeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
     whbData.width = parseInt(e.target.value);
   };
@@ -26,10 +26,7 @@ const Home = () => {
   const onChangeBomb = (e: React.ChangeEvent<HTMLInputElement>) => {
     whbData.bombcount = parseInt(e.target.value);
   };
-  const buttonClick = (): void => {
-    setData({ width: whbData.width, height: whbData.height, bombcount: whbData.bombcount });
-  };
-  console.log(data);
+
   const [bombmap, setBombmap] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -102,7 +99,15 @@ const Home = () => {
     setDifficulty('custom');
     customDocument();
   };
-
+  const buttonClick = (): void => {
+    setData({ width: whbData.width, height: whbData.height, bombcount: whbData.bombcount });
+    list(data.width, data.height);
+    boardwidth = data.width;
+    boardheight = data.height;
+    bombNumber = data.bombcount;
+    bombcount = data.bombcount;
+    makeBoard(boardwidth, boardheight);
+  };
   const customDocument = () => {
     document.addEventListener('DOMContentLoaded', () => {});
   };
@@ -126,6 +131,7 @@ const Home = () => {
         }
       }
     }
+    console.log(bo);
     setUserInputs(bo);
     setBombmap(bo);
   };
