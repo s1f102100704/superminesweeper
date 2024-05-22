@@ -90,6 +90,14 @@ const Home = () => {
       element.style.width = '';
       element.style.height = '';
     }
+    const ele: HTMLElement | null = document.getElementById('allcustom');
+
+    if (ele) {
+      if (ele.className === styles.allcus) {
+        ele.classList.remove(styles.allcus);
+        ele.classList.add(styles.allCustom);
+      }
+    }
     list(9, 9);
   };
   const midMap = () => {
@@ -99,6 +107,14 @@ const Home = () => {
       element.style.width = '';
       element.style.height = '';
     }
+    const ele: HTMLElement | null = document.getElementById('allcustom');
+
+    if (ele) {
+      if (ele.className === styles.allcus) {
+        ele.classList.remove(styles.allcus);
+        ele.classList.add(styles.allCustom);
+      }
+    }
     list(16, 16);
   };
   const hardMap = () => {
@@ -107,6 +123,14 @@ const Home = () => {
     if (element) {
       element.style.width = '';
       element.style.height = '';
+    }
+    const ele: HTMLElement | null = document.getElementById('allcustom');
+
+    if (ele) {
+      if (ele.className === styles.allcus) {
+        ele.classList.remove(styles.allcus);
+        ele.classList.add(styles.allCustom);
+      }
     }
     list(30, 16);
   };
@@ -127,7 +151,12 @@ const Home = () => {
     list(whbData.width, whbData.height);
   };
   const customDocument = () => {
-    document.addEventListener('DOMContentLoaded', () => {});
+    const element: HTMLElement | null = document.getElementById('allcustom');
+
+    if (element) {
+      element.classList.remove(styles.allCustom);
+      element.classList.add(styles.allcus);
+    }
   };
   //usermapとnewBombmapの設定
   const list = (wid: number, hei: number) => {
@@ -407,7 +436,7 @@ const Home = () => {
           カスタム
         </div>
       </div>
-      <div className={styles.allCustom}>
+      <div id="allcustom" className={styles.allCustom}>
         <div className={styles.form}>
           <label htmlFor="numberInput">幅:</label>
           <input

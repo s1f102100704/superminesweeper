@@ -43,10 +43,17 @@
 
 .custom {
   width: 1058px;
-  height: 610px;
+  height: 1200px;
 }
 
 .allCustom {
+  display: none;
+  justify-content: space-between;
+  width: 360px;
+  height: 60px;
+}
+
+.allcus {
   display: flex;
   justify-content: space-between;
   width: 360px;
