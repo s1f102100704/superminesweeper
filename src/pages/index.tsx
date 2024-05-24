@@ -15,7 +15,6 @@ const Home = () => {
   const cloneData = data;
   const onChangeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
     cloneData.width = parseInt(e.target.value);
-    setData(cloneData);
   };
   const onChangeHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
     cloneData.height = parseInt(e.target.value);
