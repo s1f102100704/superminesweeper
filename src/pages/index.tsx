@@ -215,8 +215,7 @@ const Home = () => {
     makeBoard(boardwidth, boardheight);
   }
   //右クリック
-  const rightClick = (event: React.MouseEvent, x: number, y: number) => {
-    event.preventDefault();
+  const rightClick = (x: number, y: number) => {
     if (usermap[y][x] === 0) {
       usermap[y][x] = 3;
     } else if (usermap[y][x] === 3) {
@@ -224,6 +223,21 @@ const Home = () => {
     }
 
     setUserInputs(usermap);
+  };
+
+  const boardReset = () => {
+    if (difficulty === 'easy') {
+      easyMap();
+    }
+    if (difficulty === 'medium') {
+      midMap();
+    }
+    if (difficulty === 'hard') {
+      hardMap();
+    }
+    if (difficulty === 'custom') {
+      customMap();
+    }
   };
   const playFailed = (usermap: number[][], newBombmap: number[][]) => {
     let fail = -1;
@@ -245,6 +259,29 @@ const Home = () => {
     }
   };
   playFailed(usermap, newBombmap);
+  const playClear = (usermap: number[][], newBombmap: number[][]) => {
+    let count = 0;
+    for (let p = 0; p < boardheight; p++) {
+      for (let q = 0; q < boardwidth; q++) {
+        if (usermap[p][q] === 0) {
+          count += 1;
+        }
+      }
+    }
+    if (bombNumber === count) {
+      smileState = 12;
+    }
+    if (smileState === 12) {
+      for (let p = 0; p < boardheight; p++) {
+        for (let q = 0; q < boardwidth; q++) {
+          if (usermap[p][q] === 0 && newBombmap[p][q] === 1) {
+            usermap[p][q] = 3;
+          }
+        }
+      }
+    }
+  };
+  playClear(usermap, newBombmap);
   //空白連鎖
   const judgeUsermap = (usermap: number[][], newBombmap: number[][]) => {
     for (let p = 0; p < boardheight; p++) {
@@ -265,7 +302,8 @@ const Home = () => {
     for (let p = 0; p < boardheight; p++) {
       for (let q = 0; q < boardwidth; q++) {
         if (usermap[p][q] === 1) {
-          white(p, q);
+          white(usermap, newBombmap, p, q);
+
           if (board[p][q] === -1) {
             let ar = 0;
             directions.forEach((direction) => {
@@ -311,11 +349,18 @@ const Home = () => {
       clicked(usermap, x + dx, y + dy);
     }
   };
-  const white = (p: number, q: number) => {
+  const white = (usermap: number[][], newBombmap: number[][], p: number, q: number) => {
     const element = document.getElementById(`${q}-${p}`);
-    if (element) {
-      element.style.backgroundColor = 'white';
-      element.style.border = '2px solid black';
+    if (usermap[p][q] === 1 && newBombmap[p][q] !== 1) {
+      if (element) {
+        element.style.backgroundColor = 'white';
+        element.style.border = '2px solid black';
+      }
+    } else if (usermap[p][q] === 1 && newBombmap[p][q] === 1) {
+      if (element) {
+        element.style.backgroundColor = 'red';
+        element.style.border = '2px solid black';
+      }
     }
   };
   //ますの周りのusermap がすべて1かどうかの判断
@@ -404,7 +449,13 @@ const Home = () => {
     }
 
     intervalRef.current = window.setInterval(() => {
-      if (usercount > 0 && bombuser !== 1 && bombNumber !== flagbomb && bombNumber === nocb) {
+      if (
+        usercount > 0 &&
+        bombuser !== 1 &&
+        bombNumber !== flagbomb &&
+        bombNumber === nocb &&
+        smileState !== 13
+      ) {
         setTime((prevCount) => prevCount + 1);
       }
 
@@ -475,7 +526,7 @@ const Home = () => {
         <div id="board" className={styles.boardstyle}>
           <div className={styles.headBoard}>
             <div className={styles.bombcount}>{bombcount}</div>
-            <div className={styles.smilestyle}>
+            <div className={styles.smilestyle} onClick={() => boardReset()}>
               <div
                 className={styles.smile}
                 style={{ backgroundPosition: `${-40 * smileState}px  0px` }}
@@ -490,7 +541,10 @@ const Home = () => {
                 key={`${x}-${y}`}
                 id={`${x}-${y}`}
                 onClick={() => clickHandler(x, y)}
-                onContextMenu={() => rightClick(event, x, y)}
+                onContextMenu={(event) => {
+                  event.preventDefault();
+                  rightClick(x, y);
+                }}
               >
                 <div
                   className={styles.bombstyle}
