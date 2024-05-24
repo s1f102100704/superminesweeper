@@ -26,7 +26,9 @@ const Home = () => {
   const onChangeBomb = (e: React.ChangeEvent<HTMLInputElement>) => {
     whbData.bombcount = parseInt(e.target.value);
   };
-
+  const [move, setMove] = useState(false);
+  const initCount = 0; //タイマーの初期値
+  const [time, setTime] = useState(initCount);
   const [bombmap, setBombmap] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -54,8 +56,6 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
-  const [time, setTime] = useState(0);
-  const intervalRef = useRef<number | null>(null);
   const board: number[][] = [];
   let bombcount = 10;
   let bombNumber = 10;
@@ -77,14 +77,22 @@ const Home = () => {
   let smileState = 11;
 
   const clickHandler = (x: number, y: number) => {
+    console.log(newBombmap);
     first(usermap, newBombmap, x, y);
     clicked(usermap, x, y);
+    const clear = playClear(usermap, newBombmap);
+    const failed = playFailed(usermap, newBombmap);
 
+    if (clear || failed) {
+      setMove(false);
+    }
     setUserInputs(usermap);
   };
 
   const easyMap = () => {
     setDifficulty('easy');
+    setMove(false);
+    setTime(initCount);
     const element: HTMLElement | null = document.getElementById('fullboard');
     if (element) {
       element.style.width = '';
@@ -102,6 +110,8 @@ const Home = () => {
   };
   const midMap = () => {
     setDifficulty('medium');
+    setMove(false);
+    setTime(initCount);
     const element: HTMLElement | null = document.getElementById('fullboard');
     if (element) {
       element.style.width = '';
@@ -119,6 +129,8 @@ const Home = () => {
   };
   const hardMap = () => {
     setDifficulty('hard');
+    setMove(false);
+    setTime(initCount);
     const element: HTMLElement | null = document.getElementById('fullboard');
     if (element) {
       element.style.width = '';
@@ -136,7 +148,8 @@ const Home = () => {
   };
   const customMap = () => {
     setDifficulty('custom');
-
+    setMove(false);
+    setTime(initCount);
     list(30, 30);
     customDocument();
   };
@@ -257,13 +270,18 @@ const Home = () => {
         }
       }
     }
+    if (smileState === 13) {
+      return true;
+    } else {
+      return false;
+    }
   };
   playFailed(usermap, newBombmap);
   const playClear = (usermap: number[][], newBombmap: number[][]) => {
     let count = 0;
     for (let p = 0; p < boardheight; p++) {
       for (let q = 0; q < boardwidth; q++) {
-        if (usermap[p][q] === 0) {
+        if (usermap[p][q] === 0 || usermap[p][q] === 3) {
           count += 1;
         }
       }
@@ -279,6 +297,9 @@ const Home = () => {
           }
         }
       }
+      return true;
+    } else {
+      return false;
     }
   };
   playClear(usermap, newBombmap);
@@ -396,8 +417,12 @@ const Home = () => {
     return Math.floor(Math.random() * len);
   };
   //初めてのクリック
+  const timeMove = () => {
+    setMove(true);
+  };
   const first = (usermap: number[][], newBombmap: number[][], x: number, y: number) => {
     let count = 0;
+
     for (let p = 0; p < boardheight; p++) {
       for (let q = 0; q < boardwidth; q++) {
         if (usermap[p][q] === 1) {
@@ -407,6 +432,7 @@ const Home = () => {
     }
     if (count === 0) {
       makeBomb(newBombmap, x, y);
+      timeMove();
       return true;
     }
   };
@@ -422,55 +448,20 @@ const Home = () => {
     bombcount = co;
   };
   bombCount(usermap, bombcount);
-  useEffect(() => {
-    let usercount = 0; //クリック
-    let bombuser = 0; //爆弾のクリック
-    let nocb = 0; //爆弾をクリックしていない数
-    let flagbomb = 0; //爆弾の箇所が旗
-    let noclick = 0;
-    for (let p = 0; p < boardheight; p++) {
-      for (let q = 0; q < boardwidth; q++) {
-        if (usermap[p][q] === 0) {
-          noclick += 1;
-        }
-        if (usermap[p][q] === 1) {
-          usercount += 1;
-        }
-        if (usermap[p][q] === 1 && newBombmap[p][q] === 1) {
-          bombuser = 1;
-        }
-        if (usermap[p][q] === 0 && newBombmap[p][q] === 1) {
-          nocb += 1;
-        }
-        if (usermap[p][q] === 3 && newBombmap[p][q] === 1) {
-          flagbomb += 1;
-        }
-      }
+  const countIncrement = () => {
+    setTime((preCount) => preCount + 1);
+  };
+  const Timer = () => {
+    if (move) {
+      const timer = setInterval(countIncrement, 1000);
+
+      //クリーンアップ関数
+      return () => {
+        clearInterval(timer);
+      };
     }
-
-    intervalRef.current = window.setInterval(() => {
-      if (
-        usercount > 0 &&
-        bombuser !== 1 &&
-        bombNumber !== flagbomb &&
-        bombNumber === nocb &&
-        smileState !== 13
-      ) {
-        setTime((prevCount) => prevCount + 1);
-      }
-
-      if (noclick === boardheight * boardwidth) {
-        setTime(0);
-      }
-    }, 1000);
-
-    return () => {
-      if (intervalRef.current !== null) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  });
-
+  };
+  useEffect(Timer, [move]);
   return (
     <div className={styles.container}>
       <div className={styles.allDifficulcy}>
