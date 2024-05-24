@@ -11,12 +11,7 @@ const Home = () => {
     height: number;
     bombcount: number;
   };
-  const whbData = {
-    width: 30,
-    height: 30,
-    bombcount: 15,
-  };
-  const [data, setData] = useState<whbData>(whbData);
+  const [data, setData] = useState<whbData>({ width: 30, height: 30, bombcount: 15 });
   const onChangeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
     whbData.width = parseInt(e.target.value);
   };
@@ -525,25 +520,27 @@ const Home = () => {
             </div>
             <div className={styles.timecount}>{time}</div>
           </div>
-          {board.map((row, y) =>
-            row.map((color, x) => (
-              <div
-                className={styles.cellstyle}
-                key={`${x}-${y}`}
-                id={`${x}-${y}`}
-                onClick={() => clickHandler(x, y)}
-                onContextMenu={(event) => {
-                  event.preventDefault();
-                  rightClick(x, y);
-                }}
-              >
+          <div className={styles.cellboard}>
+            {board.map((row, y) =>
+              row.map((color, x) => (
                 <div
-                  className={styles.bombstyle}
-                  style={{ backgroundPosition: `${-30 * color}px  0px` }}
-                />
-              </div>
-            )),
-          )}
+                  className={styles.cellstyle}
+                  key={`${x}-${y}`}
+                  id={`${x}-${y}`}
+                  onClick={() => clickHandler(x, y)}
+                  onContextMenu={(event) => {
+                    event.preventDefault();
+                    rightClick(x, y);
+                  }}
+                >
+                  <div
+                    className={styles.bombstyle}
+                    style={{ backgroundPosition: `${-30 * color}px  0px` }}
+                  />
+                </div>
+              )),
+            )}
+          </div>
         </div>
       </div>
     </div>

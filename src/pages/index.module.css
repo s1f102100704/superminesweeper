@@ -22,6 +22,8 @@
 }
 
 .fullboard {
+  display: flex;
+  justify-content: center;
   background-color: gray;
   outline: white outset 3px;
 }
@@ -37,12 +39,12 @@
 }
 
 .hard {
-  width: 1058px;
+  width: 1033px;
   height: 610px;
 }
 
 .custom {
-  width: 1058px;
+  width: 1033px;
   height: 1100px;
 }
 
@@ -92,7 +94,6 @@
 
 .boardstyle {
   position: relative;
-  left: 12px;
   width: 93%;
   height: 100%;
   background-color: gray;
@@ -103,9 +104,10 @@
   top: 16px;
   display: flex;
   justify-content: space-between;
-  width: 98%;
+  width: 100%;
   height: 60px;
-  margin-bottom: 16px;
+
+  /* margin-bottom: 16px; */
 
   /* border: 2px solid white; */
   outline: white outset 3px;
@@ -150,6 +152,13 @@
   color: red;
   background-color: black;
   outline: white outset 3px;
+}
+
+.cellboard {
+  position: relative;
+  top: 16px;
+  width: 100%;
+  height: calc(100% - 76px);
 }
 
 .cellstyle {
