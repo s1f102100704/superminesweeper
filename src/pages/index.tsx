@@ -12,14 +12,16 @@ const Home = () => {
     bombcount: number;
   };
   const [data, setData] = useState<whbData>({ width: 30, height: 30, bombcount: 15 });
+  const cloneData = data;
   const onChangeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
-    whbData.width = parseInt(e.target.value);
+    cloneData.width = parseInt(e.target.value);
+    setData(cloneData);
   };
   const onChangeHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
-    whbData.height = parseInt(e.target.value);
+    cloneData.height = parseInt(e.target.value);
   };
   const onChangeBomb = (e: React.ChangeEvent<HTMLInputElement>) => {
-    whbData.bombcount = parseInt(e.target.value);
+    cloneData.bombcount = parseInt(e.target.value);
   };
   const [move, setMove] = useState(false);
   const initCount = 0; //タイマーの初期値
@@ -72,13 +74,17 @@ const Home = () => {
   let smileState = 11;
 
   const clickHandler = (x: number, y: number) => {
-    console.log(newBombmap);
     first(usermap, newBombmap, x, y);
-    clicked(usermap, x, y);
+    if (smileState === 11) {
+      clicked(usermap, x, y);
+    }
+
     const clear = playClear(usermap, newBombmap);
     const failed = playFailed(usermap, newBombmap);
 
+    console.log(failed);
     if (clear || failed) {
+      console.log('a');
       setMove(false);
     }
     setUserInputs(usermap);
@@ -149,14 +155,16 @@ const Home = () => {
     customDocument();
   };
   const buttonClick = (): void => {
-    setData({ width: whbData.width, height: whbData.height, bombcount: whbData.bombcount });
+    setTime(initCount);
+    setMove(false);
+    setData({ width: cloneData.width, height: cloneData.height, bombcount: cloneData.bombcount });
     const element: HTMLElement | null = document.getElementById('fullboard');
     if (element) {
-      element.style.width = `${(whbData.width * 32 * 100) / 93 + 24}px`;
-      element.style.height = `${(whbData.height * 32 * 100) / 93 + 24 + 60}px`;
+      element.style.width = `${(cloneData.width * 32 * 100) / 93 + 24}px`;
+      element.style.height = `${(cloneData.height * 32 * 100) / 93 + 24 + 60}px`;
     }
 
-    list(whbData.width, whbData.height);
+    list(cloneData.width, cloneData.height);
   };
   const customDocument = () => {
     const element: HTMLElement | null = document.getElementById('allcustom');
@@ -224,10 +232,12 @@ const Home = () => {
   }
   //右クリック
   const rightClick = (x: number, y: number) => {
-    if (usermap[y][x] === 0) {
-      usermap[y][x] = 3;
-    } else if (usermap[y][x] === 3) {
-      usermap[y][x] = 0;
+    if (smileState !== 13) {
+      if (usermap[y][x] === 0) {
+        usermap[y][x] = 3;
+      } else if (usermap[y][x] === 3) {
+        usermap[y][x] = 0;
+      }
     }
 
     setUserInputs(usermap);
