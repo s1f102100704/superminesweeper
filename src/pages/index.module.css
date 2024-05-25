@@ -25,8 +25,8 @@
   display: flex;
   justify-content: center;
   background-color: #c6c6c6;
-  border: 3px, solid;
-  border-color: #fff #fff #808080 #808080;
+  border: 5px, solid;
+  border-color: #fff #808080 #808080 #fff;
 }
 
 .easy {
@@ -95,7 +95,7 @@
 
 .boardstyle {
   position: relative;
-  width: 93%;
+  width: 95%;
   height: 100%;
   background-color: #c6c6c6;
 }
@@ -108,11 +108,12 @@
   width: 100%;
   height: 60px;
   background-color: #c0c0c0;
+  border: solid 3px;
+  border-color: #808080 #fff #fff #808080;
 
   /* margin-bottom: 16px; */
 
   /* border: 2px solid white; */
-  outline: white outset 3px;
 }
 
 .bombcount {
@@ -173,7 +174,7 @@
   float: left;
   width: 32px;
   height: 32px;
-  border: 3px, solid;
+  border: 2px, solid;
   border-color: #fff #fff #808080 #808080;
 }
 
