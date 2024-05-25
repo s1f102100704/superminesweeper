@@ -1,10 +1,9 @@
 import styles from './index.module.css';
 import { useState } from 'react';
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 import React from 'react';
 
 const Home = () => {
-  console.log('a');
   type Difficulty = 'easy' | 'medium' | 'hard' | 'custom';
   const [difficulty, setDifficulty] = useState<Difficulty>('easy');
   type whbData = {
@@ -13,7 +12,7 @@ const Home = () => {
     bombcount: number;
   };
   const [data, setData] = useState<whbData>({ width: 30, height: 30, bombcount: 15 });
-  const cloneData = data;
+  const cloneData = { ...data };
   const onChangeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log('width');
     cloneData.width = parseInt(e.target.value);
@@ -21,6 +20,7 @@ const Home = () => {
   const onChangeHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log('height');
     cloneData.height = parseInt(e.target.value);
+    console.log(data.height, cloneData.height);
   };
   const onChangeBomb = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log('bomb');
@@ -81,7 +81,6 @@ const Home = () => {
     if (smileState === 11) {
       clicked(usermap, x, y);
     }
-    console.log('click');
 
     if (f) {
       judgeUsermap(usermap, newBombmap);
@@ -89,9 +88,7 @@ const Home = () => {
     const clear = playClear(usermap, newBombmap);
     const failed = playFailed(usermap, newBombmap);
 
-    console.log(failed);
     if (clear || failed) {
-      console.log('a');
       setMove(false);
     }
     setUserInputs(usermap);
@@ -162,6 +159,7 @@ const Home = () => {
     customDocument();
   };
   const buttonClick = (): void => {
+    console.log('buttonclick');
     setTime(initCount);
     setMove(false);
     setData({ width: cloneData.width, height: cloneData.height, bombcount: cloneData.bombcount });
@@ -231,7 +229,6 @@ const Home = () => {
     bombcount = 99;
     makeBoard(boardwidth, boardheight);
   } else if (difficulty === 'custom') {
-    console.log(data);
     boardwidth = data.width;
     boardheight = data.height;
     bombNumber = data.bombcount;
@@ -355,7 +352,6 @@ const Home = () => {
         }
       }
     }
-    console.log('judge');
   };
   //user側の処理
   const clicked = (usermap: number[][], x: number, y: number) => {
