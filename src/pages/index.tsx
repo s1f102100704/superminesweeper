@@ -1,9 +1,10 @@
 import styles from './index.module.css';
 import { useState } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import React from 'react';
 
 const Home = () => {
+  console.log('a');
   type Difficulty = 'easy' | 'medium' | 'hard' | 'custom';
   const [difficulty, setDifficulty] = useState<Difficulty>('easy');
   type whbData = {
@@ -14,12 +15,15 @@ const Home = () => {
   const [data, setData] = useState<whbData>({ width: 30, height: 30, bombcount: 15 });
   const cloneData = data;
   const onChangeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('width');
     cloneData.width = parseInt(e.target.value);
   };
   const onChangeHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('height');
     cloneData.height = parseInt(e.target.value);
   };
   const onChangeBomb = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('bomb');
     cloneData.bombcount = parseInt(e.target.value);
   };
   const [move, setMove] = useState(false);
@@ -73,11 +77,15 @@ const Home = () => {
   let smileState = 11;
 
   const clickHandler = (x: number, y: number) => {
-    first(usermap, newBombmap, x, y);
+    const f = first(usermap, newBombmap, x, y);
     if (smileState === 11) {
       clicked(usermap, x, y);
     }
+    console.log('click');
 
+    if (f) {
+      judgeUsermap(usermap, newBombmap);
+    }
     const clear = playClear(usermap, newBombmap);
     const failed = playFailed(usermap, newBombmap);
 
@@ -223,6 +231,7 @@ const Home = () => {
     bombcount = 99;
     makeBoard(boardwidth, boardheight);
   } else if (difficulty === 'custom') {
+    console.log(data);
     boardwidth = data.width;
     boardheight = data.height;
     bombNumber = data.bombcount;
@@ -283,6 +292,7 @@ const Home = () => {
   playFailed(usermap, newBombmap);
   const playClear = (usermap: number[][], newBombmap: number[][]) => {
     let count = 0;
+
     for (let p = 0; p < boardheight; p++) {
       for (let q = 0; q < boardwidth; q++) {
         if (usermap[p][q] === 0 || usermap[p][q] === 3) {
@@ -290,6 +300,7 @@ const Home = () => {
         }
       }
     }
+
     if (bombNumber === count) {
       smileState = 12;
     }
@@ -344,6 +355,7 @@ const Home = () => {
         }
       }
     }
+    console.log('judge');
   };
   //user側の処理
   const clicked = (usermap: number[][], x: number, y: number) => {
@@ -455,17 +467,17 @@ const Home = () => {
   const countIncrement = () => {
     setTime((preCount) => preCount + 1);
   };
-  const Timer = () => {
+
+  useEffect(() => {
     if (move) {
       const timer = setInterval(countIncrement, 1000);
 
-      //クリーンアップ関数
+      // クリーンアップ関数
       return () => {
         clearInterval(timer);
       };
     }
-  };
-  useEffect(Timer, [move]);
+  }, [move]);
   return (
     <div className={styles.container}>
       <div className={styles.allDifficulcy}>
@@ -484,29 +496,29 @@ const Home = () => {
       </div>
       <div id="allcustom" className={styles.allCustom}>
         <div className={styles.form}>
-          <label htmlFor="numberInput">幅:</label>
+          <label htmlFor="width">幅:</label>
           <input
             className={styles.inp}
             type="number"
-            id="numberInput"
+            id="width"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeWidth(e)}
           />
         </div>
         <div className={styles.form}>
-          <label htmlFor="numberInput">高さ:</label>
+          <label htmlFor="height">高さ:</label>
           <input
             className={styles.inp}
+            id="height"
             type="number"
-            id="numberInput"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeHeight(e)}
           />
         </div>
         <div className={styles.form}>
-          <label htmlFor="numberInput">爆弾数:</label>
+          <label htmlFor="bomb">爆弾数:</label>
           <input
             className={styles.inp}
+            id="bomb"
             type="number"
-            id="numberInput"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeBomb(e)}
           />
         </div>
