@@ -165,8 +165,8 @@ const Home = () => {
     setData({ width: cloneData.width, height: cloneData.height, bombcount: cloneData.bombcount });
     const element: HTMLElement | null = document.getElementById('fullboard');
     if (element) {
-      element.style.width = `${(cloneData.width * 32 * 100) / 93 + 24}px`;
-      element.style.height = `${(cloneData.height * 32 * 100) / 93 + 24 + 60}px`;
+      element.style.width = `${cloneData.width * 32 + 42}px`;
+      element.style.height = `${cloneData.height * 32 + 76}px`;
     }
 
     list(cloneData.width, cloneData.height);
@@ -191,11 +191,12 @@ const Home = () => {
     for (let p = 0; p < hei; p++) {
       for (let q = 0; q < wid; q++) {
         const element = document.getElementById(`${q}-${p}`);
-
+        console.log('a');
         if (element) {
-          element.style.backgroundColor = '';
-
-          element.style.border = 'none';
+          // element.style.backgroundColor = '';
+          element.style.border = '';
+          element.style.border = 'solid 3px;';
+          element.style.borderColor = ' #fff #808080 #808080#FFF';
         }
       }
     }
@@ -386,13 +387,12 @@ const Home = () => {
     const element = document.getElementById(`${q}-${p}`);
     if (usermap[p][q] === 1 && newBombmap[p][q] !== 1) {
       if (element) {
-        element.style.backgroundColor = 'white';
-        element.style.border = '2px solid black';
+        element.style.border = '1px solid #808080';
       }
     } else if (usermap[p][q] === 1 && newBombmap[p][q] === 1) {
       if (element) {
         element.style.backgroundColor = 'red';
-        element.style.border = '2px solid black';
+        element.style.border = '1px solid #808080';
       }
     }
   };

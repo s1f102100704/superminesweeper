@@ -27,25 +27,26 @@
   background-color: #c6c6c6;
   border: 5px, solid;
   border-color: #fff #808080 #808080 #fff;
+  box-shadow: -10px -10px 10px -8px #ccc;
 }
 
 .easy {
-  width: 312px;
-  height: 386px;
+  width: 330px;
+  height: 406px;
 }
 
 .medium {
-  width: 556px;
-  height: 610px;
+  width: 554px;
+  height: 630px;
 }
 
 .hard {
-  width: 1033px;
-  height: 610px;
+  width: 1002px;
+  height: 630px;
 }
 
 .custom {
-  width: 1033px;
+  width: 1002px;
   height: 1100px;
 }
 
@@ -95,7 +96,7 @@
 
 .boardstyle {
   position: relative;
-  width: 95%;
+  width: calc(100% - 26px);
   height: 100%;
   background-color: #c6c6c6;
 }
@@ -163,19 +164,20 @@
 
 .cellboard {
   position: relative;
-  top: 16px;
-  width: 100%;
-  height: calc(100% - 76px);
+  top: 32px;
+  width: calc(100% - 1px);
+  height: calc(100% - 103px);
+  border: solid 3px;
+  border-color: #808080 #fff #fff #808080;
 }
 
 .cellstyle {
   position: relative;
-  top: 16px;
   float: left;
   width: 32px;
   height: 32px;
-  border: 2px, solid;
-  border-color: #fff #fff #808080 #808080;
+  border: 3px, solid;
+  border-color: #fff #808080 #808080#FFF;
 }
 
 .bombstyle {
