@@ -184,10 +184,16 @@ const Home = () => {
   };
 
   const customMap = () => {
-    setMinsweeperConfig({ level: 'custom', width: 30, height: 16, bombs: 99 });
+    setMinsweeperConfig({
+      level: 'custom',
+      width: data.width,
+      height: data.width,
+      bombs: data.bombcount,
+    });
     setMove(false);
     setTime(initCount);
-    list(30, 30);
+    setData({ width: data.width, height: data.height, bombcount: data.bombcount });
+    list(data.width, data.height);
     customDocument();
   };
   const buttonClick = (): void => {
@@ -293,6 +299,8 @@ const Home = () => {
   };
 
   const boardReset = () => {
+    setTime(0);
+    setMove(false);
     if (mineSweeperConfig.level === 'easy') {
       easyMap();
     }
