@@ -285,7 +285,14 @@ const Home = () => {
     for (let p = 0; p < boardheight; p++) {
       for (let q = 0; q < boardwidth; q++) {
         if (newBombmap[p][q] === 1) {
+          const element = document.getElementById(`${q}-${p}`);
           board[p][q] = fail;
+          if (element) {
+            if (element.style.backgroundColor !== 'red' && smileState === 13) {
+              element.style.backgroundColor = '#c6c6c6';
+              element.style.border = '1px solid #808080';
+            }
+          }
         }
       }
     }
