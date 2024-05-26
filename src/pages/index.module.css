@@ -165,8 +165,8 @@
 .cellboard {
   position: relative;
   top: 32px;
-  width: calc(100% - 1px);
-  height: calc(100% - 103px);
+  width: 100%;
+  height: calc(100% - 102px);
   border: solid 3px;
   border-color: #808080 #fff #fff #808080;
 }
