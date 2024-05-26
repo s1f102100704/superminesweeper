@@ -65,6 +65,10 @@
   background: rgb(128 128 128 / 20%);
 }
 
+.fullboard {
+  display: flex;
+}
+
 #fullboard {
   display: flex;
   justify-content: center;
@@ -161,6 +165,10 @@
 #cellboard {
   border: solid 3px;
   border-color: #808080 #fff #fff #808080;
+}
+
+.cellboard {
+  border: solid 3px;
 }
 
 .cellstyle {

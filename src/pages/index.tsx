@@ -10,7 +10,7 @@ const Home = () => {
     height: 9,
     bombs: 10,
   });
-  const cloneConfig = structuredClone(mineSweeperConfig);
+
   type whbData = {
     width: number;
     height: number;
