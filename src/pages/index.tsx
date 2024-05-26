@@ -16,8 +16,8 @@ const Home = () => {
     height: number;
     bombcount: number;
   };
-  const [data, setData] = useState<whbData>({ width: 30, height: 30, bombcount: 15 });
-  const [cloneData, setClone] = useState<whbData>({ width: 30, height: 30, bombcount: 15 });
+  const [data, setData] = useState<whbData>({ width: 30, height: 16, bombcount: 15 });
+  const [cloneData, setClone] = useState<whbData>({ width: 30, height: 16, bombcount: 15 });
   const cc = { ...cloneData };
 
   const onChangeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
