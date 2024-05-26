@@ -303,7 +303,7 @@ const Home = () => {
       hardMap();
     }
     if (mineSweeperConfig.level === 'custom') {
-      customMap();
+      list(data.width, data.height);
     }
   };
   const playFailed = (usermap: number[][], newBombmap: number[][]) => {
