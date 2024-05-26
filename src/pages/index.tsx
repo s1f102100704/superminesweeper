@@ -19,7 +19,7 @@ const Home = () => {
   const [data, setData] = useState<whbData>({ width: 30, height: 30, bombcount: 15 });
   const [cloneData, setClone] = useState<whbData>({ width: 30, height: 30, bombcount: 15 });
   const cc = { ...cloneData };
-  console.log('cloneData', cloneData);
+
   const onChangeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log('width');
     cc.width = parseInt(e.target.value);
@@ -182,20 +182,26 @@ const Home = () => {
     }
     list(30, 16);
   };
-  console.log(usermap);
+
   const customMap = () => {
     setMinsweeperConfig({ level: 'custom', width: 30, height: 16, bombs: 99 });
     setMove(false);
     setTime(initCount);
-    list(30, 16);
+    list(30, 30);
     customDocument();
   };
   const buttonClick = (): void => {
     console.log('buttonclick');
+    setMinsweeperConfig({
+      level: 'custom',
+      width: cloneData.width,
+      height: cloneData.height,
+      bombs: cloneData.bombcount,
+    });
     setTime(initCount);
     setMove(false);
     setData({ width: cloneData.width, height: cloneData.height, bombcount: cloneData.bombcount });
-    console.log('cloneData', cloneData);
+
     const element: HTMLElement | null = document.getElementById('fullboard');
     if (element) {
       element.style.width = `${cloneData.width * 32 + 42}px`;
@@ -234,6 +240,7 @@ const Home = () => {
         }
       }
     }
+
     setUserInputs(bo);
     setBombmap(bo);
   };
@@ -247,11 +254,11 @@ const Home = () => {
     }
   };
   if (mineSweeperConfig.level === 'easy') {
-    makeBoard(configs.easy.width, configs.easy.height);
     boardwidth = configs.easy.width;
     boardheight = configs.easy.height;
     bombcount = configs.easy.bombcount;
     bombNumber = configs.easy.bombcount;
+    makeBoard(configs.easy.width, configs.easy.height);
   } else if (mineSweeperConfig.level === 'medium') {
     boardwidth = configs.medium.width;
     boardheight = configs.medium.height;
@@ -264,6 +271,13 @@ const Home = () => {
     bombcount = configs.hard.bombcount;
     bombNumber = configs.hard.bombcount;
     makeBoard(configs.hard.width, configs.hard.height);
+  } else if (mineSweeperConfig.level === 'custom') {
+    boardwidth = data.width;
+    boardheight = data.height;
+    bombNumber = data.bombcount;
+    bombcount = data.bombcount;
+
+    makeBoard(boardwidth, boardheight);
   }
   //右クリック
   const rightClick = (x: number, y: number) => {
@@ -279,11 +293,22 @@ const Home = () => {
   };
 
   const boardReset = () => {
-    makeBoard(mineSweeperConfig.width, mineSweeperConfig.height);
+    if (mineSweeperConfig.level === 'easy') {
+      easyMap();
+    }
+    if (mineSweeperConfig.level === 'medium') {
+      midMap();
+    }
+    if (mineSweeperConfig.level === 'hard') {
+      hardMap();
+    }
+    if (mineSweeperConfig.level === 'custom') {
+      customMap();
+    }
   };
   const playFailed = (usermap: number[][], newBombmap: number[][]) => {
     let fail = -1;
-
+    console.log(boardheight, boardwidth);
     for (let p = 0; p < boardheight; p++) {
       for (let q = 0; q < boardwidth; q++) {
         if (usermap[p][q] === 1 && newBombmap[p][q] === 1) {
