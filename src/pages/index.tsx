@@ -12,23 +12,28 @@ const Home = () => {
     bombcount: number;
   };
   const [data, setData] = useState<whbData>({ width: 30, height: 30, bombcount: 15 });
-  const cloneData = { ...data };
+  const [cloneData, setClone] = useState<whbData>({ width: 30, height: 30, bombcount: 15 });
+  const cc = { ...cloneData };
+  console.log('cloneData', cloneData);
   const onChangeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log('width');
-    cloneData.width = parseInt(e.target.value);
+    cc.width = parseInt(e.target.value);
+    setClone({ width: cc.width, height: cc.height, bombcount: cc.bombcount });
   };
   const onChangeHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log('height');
-    cloneData.height = parseInt(e.target.value);
-    console.log(data.height, cloneData.height);
+    cc.height = parseInt(e.target.value);
+    setClone({ width: cc.width, height: cc.height, bombcount: cc.bombcount });
   };
   const onChangeBomb = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log('bomb');
-    cloneData.bombcount = parseInt(e.target.value);
+    cc.bombcount = parseInt(e.target.value);
+    setClone({ width: cc.width, height: cc.height, bombcount: cc.bombcount });
   };
   const [move, setMove] = useState(false);
   const initCount = 0; //タイマーの初期値
   const [time, setTime] = useState(initCount);
+
   const [bombmap, setBombmap] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -163,10 +168,11 @@ const Home = () => {
     setTime(initCount);
     setMove(false);
     setData({ width: cloneData.width, height: cloneData.height, bombcount: cloneData.bombcount });
+    console.log('cloneData', cloneData);
     const element: HTMLElement | null = document.getElementById('fullboard');
     if (element) {
       element.style.width = `${cloneData.width * 32 + 42}px`;
-      element.style.height = `${cloneData.height * 32 + 76}px`;
+      element.style.height = `${cloneData.height * 32 + 118}px`;
     }
 
     list(cloneData.width, cloneData.height);
@@ -191,9 +197,10 @@ const Home = () => {
     for (let p = 0; p < hei; p++) {
       for (let q = 0; q < wid; q++) {
         const element = document.getElementById(`${q}-${p}`);
-        console.log('a');
+
         if (element) {
-          // element.style.backgroundColor = '';
+          element.style.backgroundColor = '';
+          element.style.backgroundColor = '#c6c6c6';
           element.style.border = '';
           element.style.border = 'solid 3px;';
           element.style.borderColor = ' #fff #808080 #808080#FFF';
@@ -234,6 +241,7 @@ const Home = () => {
     boardheight = data.height;
     bombNumber = data.bombcount;
     bombcount = data.bombcount;
+    console.log('boardwidth', boardwidth);
     makeBoard(boardwidth, boardheight);
   }
   //右クリック
