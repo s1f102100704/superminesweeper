@@ -4,8 +4,13 @@ import { useEffect } from 'react';
 import React from 'react';
 
 const Home = () => {
-  type Difficulty = 'easy' | 'medium' | 'hard' | 'custom';
-  const [difficulty, setDifficulty] = useState<Difficulty>('easy');
+  const [mineSweeperConfig, setMinsweeperConfig] = useState({
+    level: 'easy',
+    width: 9,
+    height: 9,
+    bombs: 10,
+  });
+  const cloneConfig = structuredClone(mineSweeperConfig);
   type whbData = {
     width: number;
     height: number;
@@ -62,8 +67,14 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
   const board: number[][] = [];
+
+  const configs = {
+    easy: { width: 9, height: 9, bombcount: 10 },
+    medium: { width: 16, height: 16, bombcount: 40 },
+    hard: { width: 30, height: 16, bombcount: 99 },
+  };
   let bombcount = 10;
-  let bombNumber = 10;
+  const bombNumber = 10;
 
   const directions = [
     { dy: -1, dx: 0 }, // 上
@@ -100,7 +111,7 @@ const Home = () => {
   };
 
   const easyMap = () => {
-    setDifficulty('easy');
+    setMinsweeperConfig({ level: 'easy', width: 9, height: 9, bombs: 10 });
     setMove(false);
     setTime(initCount);
     const element: HTMLElement | null = document.getElementById('fullboard');
@@ -119,7 +130,7 @@ const Home = () => {
     list(9, 9);
   };
   const midMap = () => {
-    setDifficulty('medium');
+    setMinsweeperConfig({ level: 'medium', width: 16, height: 16, bombs: 30 });
     setMove(false);
     setTime(initCount);
     const element: HTMLElement | null = document.getElementById('fullboard');
@@ -138,7 +149,7 @@ const Home = () => {
     list(16, 16);
   };
   const hardMap = () => {
-    setDifficulty('hard');
+    setMinsweeperConfig({ level: 'hard', width: 30, height: 16, bombs: 99 });
     setMove(false);
     setTime(initCount);
     const element: HTMLElement | null = document.getElementById('fullboard');
@@ -157,7 +168,7 @@ const Home = () => {
     list(30, 16);
   };
   const customMap = () => {
-    setDifficulty('custom');
+    setMinsweeperConfig({ level: 'custom', width: 30, height: 16, bombs: 99 });
     setMove(false);
     setTime(initCount);
     list(30, 30);
@@ -218,32 +229,7 @@ const Home = () => {
       }
     }
   };
-  if (difficulty === 'easy') {
-    boardwidth = 9;
-    boardheight = 9;
-    bombNumber = 10;
-    bombcount = 10;
-    makeBoard(boardwidth, boardheight);
-  } else if (difficulty === 'medium') {
-    boardwidth = 16;
-    boardheight = 16;
-    bombNumber = 40;
-    bombcount = 40;
-    makeBoard(boardwidth, boardheight);
-  } else if (difficulty === 'hard') {
-    boardwidth = 30;
-    boardheight = 16;
-    bombNumber = 99;
-    bombcount = 99;
-    makeBoard(boardwidth, boardheight);
-  } else if (difficulty === 'custom') {
-    boardwidth = data.width;
-    boardheight = data.height;
-    bombNumber = data.bombcount;
-    bombcount = data.bombcount;
-    console.log('boardwidth', boardwidth);
-    makeBoard(boardwidth, boardheight);
-  }
+
   //右クリック
   const rightClick = (x: number, y: number) => {
     if (smileState !== 13) {
@@ -258,18 +244,7 @@ const Home = () => {
   };
 
   const boardReset = () => {
-    if (difficulty === 'easy') {
-      easyMap();
-    }
-    if (difficulty === 'medium') {
-      midMap();
-    }
-    if (difficulty === 'hard') {
-      hardMap();
-    }
-    if (difficulty === 'custom') {
-      customMap();
-    }
+    makeBoard(mineSweeperConfig.width, mineSweeperConfig.height);
   };
   const playFailed = (usermap: number[][], newBombmap: number[][]) => {
     let fail = -1;
@@ -540,8 +515,17 @@ const Home = () => {
           onClick={(): void => buttonClick()}
         />
       </div>
-      <div id="fullboard" className={`${styles.fullboard} ${styles[difficulty]}`}>
+      <div
+        id={styles.fullboard}
+        style={{
+          height: `${33 * mineSweeperConfig.height + 124}px`,
+          width: `${33 * mineSweeperConfig.width + 42}px`,
+        }}
+      >
+        <div className={styles.leftborder} />
+
         <div id="board" className={styles.boardstyle}>
+          <div className={styles.topborder} />
           <div className={styles.headBoard}>
             <div className={styles.bombcount}>{bombcount}</div>
             <div className={styles.smilestyle} onClick={() => boardReset()}>
@@ -552,7 +536,14 @@ const Home = () => {
             </div>
             <div className={styles.timecount}>{time}</div>
           </div>
-          <div className={styles.cellboard}>
+          <div className={styles.midborder} />
+          <div
+            id={styles.cellboard}
+            style={{
+              height: `${33 * mineSweeperConfig.height + 6}px`,
+              width: `${33 * mineSweeperConfig.width + 6}px`,
+            }}
+          >
             {board.map((row, y) =>
               row.map((color, x) => (
                 <div
@@ -573,7 +564,9 @@ const Home = () => {
               )),
             )}
           </div>
+          <div className={styles.bottomborder} />
         </div>
+        <div className={styles.rightborder} />
       </div>
     </div>
   );

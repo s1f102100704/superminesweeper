@@ -21,35 +21,6 @@
   text-align: center;
 }
 
-.fullboard {
-  display: flex;
-  justify-content: center;
-  background-color: #c6c6c6;
-  border: 5px, solid;
-  border-color: #fff #808080 #808080 #fff;
-  box-shadow: -10px -10px 10px -8px #ccc;
-}
-
-.easy {
-  width: 330px;
-  height: 406px;
-}
-
-.medium {
-  width: 554px;
-  height: 630px;
-}
-
-.hard {
-  width: 1002px;
-  height: 630px;
-}
-
-.custom {
-  width: 1002px;
-  height: 1100px;
-}
-
 .allCustom {
   display: none;
   justify-content: space-between;
@@ -94,16 +65,45 @@
   background: rgb(128 128 128 / 20%);
 }
 
-.boardstyle {
-  position: relative;
-  width: calc(100% - 26px);
+#fullboard {
+  display: flex;
+  justify-content: center;
+  background-color: #c6c6c6;
+  border: 5px, solid;
+  border-color: #fff #808080 #808080 #fff;
+  box-shadow: -10px -10px 10px -8px #ccc;
+}
+
+.topborder {
+  width: 100%;
+  height: 16px;
+}
+
+.leftborder {
+  width: 16px;
   height: 100%;
+}
+
+.midborder {
+  width: 100%;
+  height: 16px;
+}
+
+.rightborder {
+  width: 16px;
+  height: 100%;
+}
+
+.bottomborder {
+  width: 100%;
+  height: 16px;
+}
+
+.boardstyle {
   background-color: #c6c6c6;
 }
 
 .headBoard {
-  position: relative;
-  top: 16px;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -111,10 +111,6 @@
   background-color: #c0c0c0;
   border: solid 3px;
   border-color: #808080 #fff #fff #808080;
-
-  /* margin-bottom: 16px; */
-
-  /* border: 2px solid white; */
 }
 
 .bombcount {
@@ -162,11 +158,7 @@
   outline: white outset 3px;
 }
 
-.cellboard {
-  position: relative;
-  top: 32px;
-  width: 100%;
-  height: calc(100% - 102px);
+#cellboard {
   border: solid 3px;
   border-color: #808080 #fff #fff #808080;
 }
