@@ -192,6 +192,12 @@ const Home = () => {
     });
     setMove(false);
     setTime(initCount);
+    setMinsweeperConfig({
+      level: 'custom',
+      width: cloneData.width,
+      height: cloneData.height,
+      bombs: cloneData.bombcount,
+    });
     setData({ width: data.width, height: data.height, bombcount: data.bombcount });
     list(data.width, data.height);
     customDocument();
