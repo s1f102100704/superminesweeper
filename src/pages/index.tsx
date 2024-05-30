@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import React from 'react';
 import { useGame } from './useGame';
+import { Board } from './Board';
 const Home = () => {
   const [mineSweeperConfig, setMinsweeperConfig] = useState({
     level: 'easy',
