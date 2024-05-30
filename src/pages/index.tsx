@@ -7,6 +7,7 @@ import { useCustom } from './hooks/useCustom';
 import Board from './component/Board';
 import TopArea from './component/TopArea';
 import CustomArea from './component/CustomArea';
+//a
 const Home = () => {
   const {} = useGame();
   const {} = useCustom();
