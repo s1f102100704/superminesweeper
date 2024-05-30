@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { useGame } from './useGame';
+import { useGame } from '../hooks/useGame';
 const TopArea = (props) => {
   const {} = useGame();
+
   return (
     <div className={styles.headBoard}>
       <div className={styles.bombcount}>{bombcount}</div>
@@ -15,3 +16,4 @@ const TopArea = (props) => {
     </div>
   );
 };
+export default TopArea;

@@ -1,7 +1,8 @@
-import { useGame } from './useGame';
+import { useGame } from '../hooks/useGame';
 
 const Board = (props) => {
   const {} = useGame();
+
   return (
     <div
       id={styles.cellboard}
@@ -32,3 +33,4 @@ const Board = (props) => {
     </div>
   );
 };
+export default Board;
