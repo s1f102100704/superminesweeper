@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useGame } from '../hooks/useGame';
+import {} from '../hooks/useHead';
+import styles from './index.module.css';
 const TopArea = (props) => {
   const {} = useGame();
 

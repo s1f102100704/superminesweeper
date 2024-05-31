@@ -1,13 +1,9 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import type React from 'react';
+import { useCustom } from './useCustom';
 export const useGame = () => {
-  const [mineSweeperConfig, setMinsweeperConfig] = useState({
-    level: 'easy',
-    width: 9,
-    height: 9,
-    bombs: 10,
-  });
+  const { mineSweeperConfig } = useCustom();
 
   type whbData = {
     width: number;
@@ -263,32 +259,36 @@ export const useGame = () => {
       }
     }
   };
-  if (mineSweeperConfig.level === 'easy') {
-    boardwidth = configs.easy.width;
-    boardheight = configs.easy.height;
-    bombcount = configs.easy.bombcount;
-    bombNumber = configs.easy.bombcount;
-    makeBoard(configs.easy.width, configs.easy.height);
-  } else if (mineSweeperConfig.level === 'medium') {
-    boardwidth = configs.medium.width;
-    boardheight = configs.medium.height;
-    bombcount = configs.medium.bombcount;
-    bombNumber = configs.medium.bombcount;
-    makeBoard(configs.medium.width, configs.medium.height);
-  } else if (mineSweeperConfig.level === 'hard') {
-    boardwidth = configs.hard.width;
-    boardheight = configs.hard.height;
-    bombcount = configs.hard.bombcount;
-    bombNumber = configs.hard.bombcount;
-    makeBoard(configs.hard.width, configs.hard.height);
-  } else if (mineSweeperConfig.level === 'custom') {
-    boardwidth = data.width;
-    boardheight = data.height;
-    bombNumber = data.bombcount;
-    bombcount = data.bombcount;
+  const playLevel = () => {
+    if (mineSweeperConfig.level === 'easy') {
+      boardwidth = configs.easy.width;
+      boardheight = configs.easy.height;
+      bombcount = configs.easy.bombcount;
+      bombNumber = configs.easy.bombcount;
+      makeBoard(configs.easy.width, configs.easy.height);
+    } else if (mineSweeperConfig.level === 'medium') {
+      boardwidth = configs.medium.width;
+      boardheight = configs.medium.height;
+      bombcount = configs.medium.bombcount;
+      bombNumber = configs.medium.bombcount;
+      makeBoard(configs.medium.width, configs.medium.height);
+    } else if (mineSweeperConfig.level === 'hard') {
+      boardwidth = configs.hard.width;
+      boardheight = configs.hard.height;
+      bombcount = configs.hard.bombcount;
+      bombNumber = configs.hard.bombcount;
+      makeBoard(configs.hard.width, configs.hard.height);
+    } else if (mineSweeperConfig.level === 'custom') {
+      boardwidth = data.width;
+      boardheight = data.height;
+      bombNumber = data.bombcount;
+      bombcount = data.bombcount;
 
-    makeBoard(boardwidth, boardheight);
-  }
+      makeBoard(boardwidth, boardheight);
+    }
+  };
+  playLevel();
+
   //右クリック
   const rightClick = (x: number, y: number) => {
     if (smileState !== 13) {
@@ -536,4 +536,5 @@ export const useGame = () => {
       };
     }
   }, [move]);
+  return { board, clickHandler, rightClick, time };
 };

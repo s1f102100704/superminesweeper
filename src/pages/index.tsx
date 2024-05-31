@@ -9,8 +9,8 @@ import TopArea from './component/TopArea';
 import CustomArea from './component/CustomArea';
 //a
 const Home = () => {
-  const {} = useGame();
-  const {} = useCustom();
+  const { board, clickHandler, rightClick, time } = useGame();
+  const { mineSweeperConfig } = useCustom();
   return (
     <div className={styles.container}>
       <CustomArea />
@@ -28,7 +28,7 @@ const Home = () => {
 
           <TopArea />
           <div className={styles.midborder} />
-          <Board />
+          <Board board={board} onClick={clickHandler} onContextMenu={rightClick} />
           <div className={styles.bottomborder} />
         </div>
         <div className={styles.rightborder} />
