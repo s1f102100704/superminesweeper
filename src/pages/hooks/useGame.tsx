@@ -1,38 +1,23 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import type React from 'react';
+
 import { useCustom } from './useCustom';
 export const useGame = () => {
-  const { mineSweeperConfig } = useCustom();
-
-  type whbData = {
-    width: number;
-    height: number;
-    bombcount: number;
-  };
-  const [data, setData] = useState<whbData>({ width: 30, height: 16, bombcount: 15 });
-  const [cloneData, setClone] = useState<whbData>({ width: 30, height: 16, bombcount: 15 });
-  const cc = { ...cloneData };
-
-  const onChangeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('width');
-    cc.width = parseInt(e.target.value);
-    setClone({ width: cc.width, height: cc.height, bombcount: cc.bombcount });
-  };
-  const onChangeHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('height');
-    cc.height = parseInt(e.target.value);
-    setClone({ width: cc.width, height: cc.height, bombcount: cc.bombcount });
-  };
-  const onChangeBomb = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('bomb');
-    cc.bombcount = parseInt(e.target.value);
-    setClone({ width: cc.width, height: cc.height, bombcount: cc.bombcount });
-  };
+  const {
+    easyMap,
+    midMap,
+    hardMap,
+    list,
+    bombbomb,
+    mineSweeperConfig,
+    boardwidth,
+    boardheight,
+    bombNumber,
+    bombcount,
+  } = useCustom();
   const [move, setMove] = useState(false);
   const initCount = 0; //タイマーの初期値
   const [time, setTime] = useState(initCount);
-
   const [bombmap, setBombmap] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -62,12 +47,6 @@ export const useGame = () => {
   ]);
   const board: number[][] = [];
 
-  const configs = {
-    easy: { width: 9, height: 9, bombcount: 10 },
-    medium: { width: 16, height: 16, bombcount: 40 },
-    hard: { width: 30, height: 16, bombcount: 99 },
-  };
-
   const directions = [
     { dy: -1, dx: 0 }, // 上
     { dy: 1, dx: 0 }, // 下
@@ -82,24 +61,23 @@ export const useGame = () => {
   const newBombmap = structuredClone(bombmap);
   const usermap = structuredClone(userInputs);
   let smileState = 11;
-
   const clickHandler = (x: number, y: number) => {
     const f = first(usermap, newBombmap, x, y);
     if (smileState === 11) {
       clicked(usermap, x, y);
     }
-
     if (f) {
       judgeUsermap(usermap, newBombmap);
     }
     const clear = playClear(usermap, newBombmap);
     const failed = playFailed(usermap, newBombmap);
-
     if (clear || failed) {
       setMove(false);
     }
     setUserInputs(usermap);
   };
+
+  //usermapとnewBombmapの設定
 
   //右クリック
   const rightClick = (x: number, y: number) => {
@@ -110,10 +88,8 @@ export const useGame = () => {
         usermap[y][x] = 0;
       }
     }
-
     setUserInputs(usermap);
   };
-
   const boardReset = () => {
     setTime(0);
     setMove(false);
@@ -164,7 +140,6 @@ export const useGame = () => {
   playFailed(usermap, newBombmap);
   const playClear = (usermap: number[][], newBombmap: number[][]) => {
     let count = 0;
-
     for (let p = 0; p < boardheight; p++) {
       for (let q = 0; q < boardwidth; q++) {
         if (usermap[p][q] === 0 || usermap[p][q] === 3) {
@@ -172,7 +147,6 @@ export const useGame = () => {
         }
       }
     }
-
     if (bombNumber === count) {
       smileState = 12;
     }
@@ -206,12 +180,10 @@ export const useGame = () => {
         }
       }
     }
-
     for (let p = 0; p < boardheight; p++) {
       for (let q = 0; q < boardwidth; q++) {
         if (usermap[p][q] === 1) {
           white(usermap, newBombmap, p, q);
-
           if (board[p][q] === -1) {
             let ar = 0;
             directions.forEach((direction) => {
@@ -286,7 +258,6 @@ export const useGame = () => {
     board[y][x] = 9;
   };
   judgeUsermap(usermap, newBombmap);
-
   //爆弾を作る
   const makeBomb = (newBombmap: number[][], x: number, y: number) => {
     for (let i = 0; i <= bombNumber - 1; ) {
@@ -308,7 +279,6 @@ export const useGame = () => {
   };
   const first = (usermap: number[][], newBombmap: number[][], x: number, y: number) => {
     let count = 0;
-
     for (let p = 0; p < boardheight; p++) {
       for (let q = 0; q < boardwidth; q++) {
         if (usermap[p][q] === 1) {
@@ -331,22 +301,27 @@ export const useGame = () => {
         }
       }
     }
-    bombcount = co;
+    bombbomb(co);
   };
   bombCount(usermap, bombcount);
   const countIncrement = () => {
     setTime((preCount) => preCount + 1);
   };
-
   useEffect(() => {
     if (move) {
       const timer = setInterval(countIncrement, 1000);
-
       // クリーンアップ関数
       return () => {
         clearInterval(timer);
       };
     }
   }, [move]);
-  return { move, setMove, board, clickHandler, rightClick, time, configs };
+  return {
+    setMove,
+    setTime,
+    initCount,
+    setUserInputs,
+    setBombmap,
+    board,
+  };
 };
