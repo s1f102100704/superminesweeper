@@ -67,8 +67,6 @@ export const useGame = () => {
     medium: { width: 16, height: 16, bombcount: 40 },
     hard: { width: 30, height: 16, bombcount: 99 },
   };
-  let bombcount = 10;
-  const bombNumber = 10;
 
   const directions = [
     { dy: -1, dx: 0 }, // 上
@@ -80,8 +78,7 @@ export const useGame = () => {
     { dy: -1, dx: -1 }, // 左斜め上
     { dy: 1, dx: -1 }, // 左斜め下
   ];
-  let boardwidth: number;
-  let boardheight: number;
+
   const newBombmap = structuredClone(bombmap);
   const usermap = structuredClone(userInputs);
   let smileState = 11;
@@ -351,5 +348,5 @@ export const useGame = () => {
       };
     }
   }, [move]);
-  return { move, setMove, board, clickHandler, rightClick, time };
+  return { move, setMove, board, clickHandler, rightClick, time, configs };
 };
