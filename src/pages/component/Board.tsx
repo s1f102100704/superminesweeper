@@ -1,8 +1,9 @@
+import { useCustom } from '../hooks/useCustom';
 import { useGame } from '../hooks/useGame';
 import styles from './index.module.css';
 const Board = (props) => {
-  const { board, clickHandler, rightClick, mineSweeperConfig } = useGame();
-
+  const { board, clickHandler, rightClick } = useGame();
+  const { mineSweeperConfig } = useCustom();
   return (
     <div
       id={styles.cellboard}
