@@ -9,7 +9,7 @@ interface Props {
   onChangeBomb: (e: React.ChangeEvent<HTMLInputElement>) => void;
   buttonClick: () => void;
 }
-const CustomArea: React.FC<Props> = (props) => {
+export const CustomArea: React.FC<Props> = (props) => {
   const {
     easyMap,
     midMap,
@@ -74,4 +74,3 @@ const CustomArea: React.FC<Props> = (props) => {
     </div>
   );
 };
-export default CustomArea;

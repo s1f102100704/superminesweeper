@@ -16,7 +16,7 @@ interface Props {
   boardReset: () => void;
 }
 
-const Board: React.FC<Props> = (props) => {
+export const Board: React.FC<Props> = (props) => {
   const {
     bombcount,
     smileState,
@@ -81,4 +81,3 @@ const Board: React.FC<Props> = (props) => {
     </div>
   );
 };
-export default Board;
