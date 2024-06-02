@@ -1,8 +1,9 @@
 import styles from '../index.module.css';
 import { useState } from 'react';
 import type React from 'react';
+import { useGame } from './useGame';
 
-export const useCustom = (setMove, setTime, initCount, setUserInputs, setBombmap, board) => {
+export const useCustom = () => {
   const [mineSweeperConfig, setMinsweeperConfig] = useState({
     level: 'easy',
     width: 9,
@@ -19,6 +20,7 @@ export const useCustom = (setMove, setTime, initCount, setUserInputs, setBombmap
   const [data, setData] = useState<whbData>({ width: 30, height: 16, bombcount: 15 });
   const [cloneData, setClone] = useState<whbData>({ width: 30, height: 16, bombcount: 15 });
   const cc = { ...cloneData };
+  const board: number[][] = [];
   const configs = {
     easy: { width: 9, height: 9, bombcount: 10 },
     medium: { width: 16, height: 16, bombcount: 40 },
@@ -54,8 +56,7 @@ export const useCustom = (setMove, setTime, initCount, setUserInputs, setBombmap
       height: configs.easy.height,
       bombs: configs.easy.bombcount,
     });
-    setMove(false);
-    setTime(initCount);
+
     const element: HTMLElement | null = document.getElementById('fullboard');
     if (element) {
       element.style.width = '';
@@ -77,8 +78,7 @@ export const useCustom = (setMove, setTime, initCount, setUserInputs, setBombmap
       height: configs.medium.height,
       bombs: configs.medium.bombcount,
     });
-    setMove(false);
-    setTime(initCount);
+
     const element: HTMLElement | null = document.getElementById('fullboard');
     if (element) {
       element.style.width = '';
@@ -100,8 +100,7 @@ export const useCustom = (setMove, setTime, initCount, setUserInputs, setBombmap
       height: configs.hard.height,
       bombs: configs.hard.bombcount,
     });
-    setMove(false);
-    setTime(initCount);
+
     const element: HTMLElement | null = document.getElementById('fullboard');
     if (element) {
       element.style.width = '';
@@ -123,8 +122,7 @@ export const useCustom = (setMove, setTime, initCount, setUserInputs, setBombmap
       height: data.width,
       bombs: data.bombcount,
     });
-    setMove(false);
-    setTime(initCount);
+
     setMinsweeperConfig({
       level: 'custom',
       width: cloneData.width,
@@ -135,6 +133,19 @@ export const useCustom = (setMove, setTime, initCount, setUserInputs, setBombmap
     list(data.width, data.height);
     customDocument();
   };
+  const { setTime, setMove, setUserInputs, setBombmap } = useGame({
+    easyMap,
+    midMap,
+    hardMap,
+    customMap,
+    bombbomb,
+    board,
+    boardwidth,
+    boardheight,
+    bombNumber,
+    bombcount,
+    mineSweeperConfig,
+  });
   const buttonClick = (): void => {
     console.log('buttonclick');
     setMinsweeperConfig({
@@ -143,7 +154,7 @@ export const useCustom = (setMove, setTime, initCount, setUserInputs, setBombmap
       height: cloneData.height,
       bombs: cloneData.bombcount,
     });
-    setTime(initCount);
+    setTime(0);
     setMove(false);
     setData({ width: cloneData.width, height: cloneData.height, bombcount: cloneData.bombcount });
     const element: HTMLElement | null = document.getElementById('fullboard');
@@ -225,13 +236,12 @@ export const useCustom = (setMove, setTime, initCount, setUserInputs, setBombmap
     midMap,
     hardMap,
     customMap,
-    list,
     bombbomb,
     onChangeWidth,
     onChangeHeight,
     onChangeBomb,
     buttonClick,
-    data,
+    board,
     mineSweeperConfig,
     boardwidth,
     boardheight,

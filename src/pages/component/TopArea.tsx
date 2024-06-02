@@ -1,5 +1,5 @@
 import styles from '../index.module.css';
-const TopArea = () => {
+const TopArea = ({ bombcount, smileState, time, boardReset }) => {
   return (
     <div className={styles.headBoard}>
       <div className={styles.bombcount}>{bombcount}</div>

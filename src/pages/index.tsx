@@ -9,27 +9,35 @@ import React from 'react';
 
 const Home = () => {
   const {
-    setMove,
-    setTime,
-    initCount,
-    setUserInputs,
-    setBombmap,
-    clickHandler,
-    rightClick,
-    boardReset,
+    easyMap,
+    midMap,
+    hardMap,
+    customMap,
+    bombbomb,
+    onChangeWidth,
+    onChangeHeight,
+    onChangeBomb,
+    buttonClick,
     board,
-    smileState,
-    time,
-  } = useGame();
-  const { mineSweeperConfig } = useCustom(
-    setMove,
-    setTime,
-    initCount,
-    setUserInputs,
-    setBombmap,
+    mineSweeperConfig,
+    boardwidth,
+    boardheight,
+    bombNumber,
+    bombcount,
+  } = useCustom();
+  const { smileState, time, boardReset, clickHandler, rightClick } = useGame({
+    easyMap,
+    midMap,
+    hardMap,
+    customMap,
+    bombbomb,
     board,
-  );
-
+    boardwidth,
+    boardheight,
+    bombNumber,
+    bombcount,
+    mineSweeperConfig,
+  });
   return (
     <div className={styles.container}>
       <CustomArea
@@ -38,7 +46,7 @@ const Home = () => {
         hardMap={hardMap}
         customMap={customMap}
         onChangeWidth={onChangeWidth}
-        onchangeHeight={onChangeHeight}
+        onChangeHeight={onChangeHeight}
         onChangeBomb={onChangeBomb}
         buttonClick={buttonClick}
       />
@@ -52,7 +60,12 @@ const Home = () => {
         <div className={styles.leftborder} />
         <div id="board" className={styles.boardstyle}>
           <div className={styles.topborder} />
-          <TopArea />
+          <TopArea
+            bombcount={bombcount}
+            smileState={smileState}
+            time={time}
+            boardReset={boardReset}
+          />
           <div className={styles.midborder} />
           <Board
             board={board}

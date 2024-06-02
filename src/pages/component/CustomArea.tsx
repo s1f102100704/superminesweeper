@@ -1,6 +1,15 @@
 import styles from '../index.module.css';
 
-const CustomArea = (easyMap,,midMap,hardMap,customMap,onChangeWidth,onChangeHeight,onChangeBomb,buttonClick) => {
+const CustomArea = ({
+  easyMap,
+  midMap,
+  hardMap,
+  customMap,
+  onChangeWidth,
+  onChangeHeight,
+  onChangeBomb,
+  buttonClick,
+}) => {
   return (
     <div>
       <div className={styles.allDifficulcy}>

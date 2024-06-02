@@ -2,20 +2,19 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 
 import { useCustom } from './useCustom';
-export const useGame = () => {
-  const {
-    easyMap,
-    midMap,
-    hardMap,
-    list,
-    bombbomb,
-    data,
-    mineSweeperConfig,
-    boardwidth,
-    boardheight,
-    bombNumber,
-    bombcount,
-  } = useCustom();
+export const useGame = ({
+  easyMap,
+  midMap,
+  hardMap,
+  customMap,
+  bombbomb,
+  board,
+  boardwidth,
+  boardheight,
+  bombNumber,
+  bombcount,
+  mineSweeperConfig,
+}) => {
   const [move, setMove] = useState(false);
   const initCount = 0; //タイマーの初期値
   const [time, setTime] = useState(initCount);
@@ -46,7 +45,6 @@ export const useGame = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
-  const board: number[][] = [];
 
   const directions = [
     { dy: -1, dx: 0 }, // 上
@@ -91,22 +89,7 @@ export const useGame = () => {
     }
     setUserInputs(usermap);
   };
-  const boardReset = () => {
-    setTime(0);
-    setMove(false);
-    if (mineSweeperConfig.level === 'easy') {
-      easyMap();
-    }
-    if (mineSweeperConfig.level === 'medium') {
-      midMap();
-    }
-    if (mineSweeperConfig.level === 'hard') {
-      hardMap();
-    }
-    if (mineSweeperConfig.level === 'custom') {
-      list(data.width, data.height);
-    }
-  };
+
   const playFailed = (usermap: number[][], newBombmap: number[][]) => {
     let fail = -1;
     console.log(boardheight, boardwidth);
@@ -291,6 +274,22 @@ export const useGame = () => {
       makeBomb(newBombmap, x, y);
       timeMove();
       return true;
+    }
+  };
+  const boardReset = () => {
+    setTime(0);
+    setMove(false);
+    if (mineSweeperConfig.level === 'easy') {
+      easyMap();
+    }
+    if (mineSweeperConfig.level === 'medium') {
+      midMap();
+    }
+    if (mineSweeperConfig.level === 'hard') {
+      hardMap();
+    }
+    if (mineSweeperConfig.level === 'custom') {
+      customMap();
     }
   };
   const bombCount = (usermap: number[][], count: number) => {
