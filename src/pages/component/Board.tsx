@@ -28,12 +28,14 @@ const Board: React.FC<Props> = (props) => {
     mineSweeperConfig,
     rightClick,
   } = props;
+  const height = mineSweeperConfig.height || 0;
+  const width = mineSweeperConfig.width || 0;
   return (
     <div
       id={styles.fullboard}
       style={{
-        height: `${33 * mineSweeperConfig.height + 124}px`,
-        width: `${33 * mineSweeperConfig.width + 42}px`,
+        height: `${33 * height + 124}px`,
+        width: `${33 * width + 42}px`,
       }}
     >
       <div className={styles.leftborder} />
