@@ -2,8 +2,8 @@ import styles from './index.module.css';
 
 import { useGame } from '../hooks/useGame';
 import React from 'react';
-import CustomArea from './component/CustomArea';
-import Board from './component/Board';
+import CustomArea from '../component/CustomArea';
+import Board from '../component/Board';
 
 const Home = () => {
   const {
