@@ -1,5 +1,6 @@
 import styles from './index.module.css';
 import Board from './component/Board';
+import React from 'react';
 import CustomArea from './component/CustomArea';
 import { useGame } from './hooks/useGame';
 

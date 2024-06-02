@@ -79,6 +79,7 @@ const Board: React.FC<Props> = (props) => {
         </div>
         <div className={styles.bottomborder} />
       </div>
+      <div className={styles.rightborder} />
     </div>
   );
 };
