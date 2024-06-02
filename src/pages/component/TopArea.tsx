@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import { useGame } from '../hooks/useGame';
-import { useHead } from '../hooks/useHead';
-import styles from './index.module.css';
-const TopArea = (props) => {
-  const { board, clickHandler, rightClick, mineSweeperConfig } = useGame();
-  const { bombcount, smileState, time, boardReset } = useHead();
+import { useCustom } from '../hooks/useCustom';
+import styles from '../index.module.css';
+const TopArea = () => {
+  const { boardReset, smileState, time } = useGame();
+  const { bombcount } = useCustom();
+
   return (
     <div className={styles.headBoard}>
       <div className={styles.bombcount}>{bombcount}</div>

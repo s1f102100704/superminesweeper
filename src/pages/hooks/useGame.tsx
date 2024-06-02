@@ -9,6 +9,7 @@ export const useGame = () => {
     hardMap,
     list,
     bombbomb,
+    data,
     mineSweeperConfig,
     boardwidth,
     boardheight,
@@ -322,6 +323,11 @@ export const useGame = () => {
     initCount,
     setUserInputs,
     setBombmap,
+    clickHandler,
+    rightClick,
+    boardReset,
     board,
+    smileState,
+    time,
   };
 };

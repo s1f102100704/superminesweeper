@@ -1,8 +1,16 @@
-import { useGame } from '../hooks/useGame';
-
+import styles from '../index.module.css';
+import { useCustom } from '../hooks/useCustom';
 const CustomArea = (props) => {
-  const {} = useGame();
-
+  const {
+    easyMap,
+    midMap,
+    hardMap,
+    customMap,
+    onChangeWidth,
+    onChangeHeight,
+    onChangeBomb,
+    buttonClick,
+  } = useCustom();
   return (
     <div>
       <div className={styles.allDifficulcy}>

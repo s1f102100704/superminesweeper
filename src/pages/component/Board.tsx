@@ -1,7 +1,7 @@
 import { useCustom } from '../hooks/useCustom';
 import { useGame } from '../hooks/useGame';
-import styles from './index.module.css';
-const Board = (props) => {
+import styles from '../index.module.css';
+const Board = () => {
   const { board, clickHandler, rightClick } = useGame();
   const { mineSweeperConfig } = useCustom();
   return (
