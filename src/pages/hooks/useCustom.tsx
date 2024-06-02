@@ -1,10 +1,8 @@
-import styles from './index.module.css';
+import styles from '../index.module.css';
 import { useState } from 'react';
 import type React from 'react';
-import { useGame } from './useGame';
 
-export const useCustom = () => {
-  const { setMove, setTime, initCount, setUserInputs, setBombmap, board } = useGame();
+export const useCustom = (setMove, setTime, initCount, setUserInputs, setBombmap, board) => {
   const [mineSweeperConfig, setMinsweeperConfig] = useState({
     level: 'easy',
     width: 9,

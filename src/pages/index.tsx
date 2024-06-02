@@ -1,15 +1,47 @@
+import styles from './index.module.css';
 import Board from './component/Board';
 import CustomArea from './component/CustomArea';
 import TopArea from './component/TopArea';
 import { useCustom } from './hooks/useCustom';
-import styles from './index.module.css';
+import { useGame } from './hooks/useGame';
+
 import React from 'react';
 
 const Home = () => {
-  const { mineSweeperConfig } = useCustom();
+  const {
+    setMove,
+    setTime,
+    initCount,
+    setUserInputs,
+    setBombmap,
+    clickHandler,
+    rightClick,
+    boardReset,
+    board,
+    smileState,
+    time,
+  } = useGame();
+  const { mineSweeperConfig } = useCustom(
+    setMove,
+    setTime,
+    initCount,
+    setUserInputs,
+    setBombmap,
+    board,
+  );
+
   return (
     <div className={styles.container}>
-      <CustomArea />
+      <CustomArea
+        easyMap={easyMap}
+        midMap={midMap}
+        hardMap={hardMap}
+        customMap={customMap}
+        onChangeWidth={onChangeWidth}
+        onchangeHeight={onChangeHeight}
+        onChangeBomb={onChangeBomb}
+        buttonClick={buttonClick}
+      />
       <div
         id={styles.fullboard}
         style={{
@@ -22,7 +54,12 @@ const Home = () => {
           <div className={styles.topborder} />
           <TopArea />
           <div className={styles.midborder} />
-          <Board />
+          <Board
+            board={board}
+            clickHandler={clickHandler}
+            mineSweeperConfig={mineSweeperConfig}
+            rightClick={rightClick}
+          />
           <div className={styles.bottomborder} />
         </div>
         <div className={styles.rightborder} />
