@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import styles from '../index.module.css';
+import styles from '../pages/index.module.css';
 
 export const useGame = () => {
   const [mineSweeperConfig, setMinsweeperConfig] = useState({
