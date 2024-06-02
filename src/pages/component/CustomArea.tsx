@@ -1,15 +1,25 @@
 import styles from '../index.module.css';
-
-const CustomArea = ({
-  easyMap,
-  midMap,
-  hardMap,
-  customMap,
-  onChangeWidth,
-  onChangeHeight,
-  onChangeBomb,
-  buttonClick,
-}) => {
+interface Props {
+  easyMap: () => void;
+  midMap: () => void;
+  hardMap: () => void;
+  customMap: () => void;
+  onChangeWidth: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeHeight: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeBomb: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  buttonClick: () => void;
+}
+const CustomArea: React.FC<Props> = (props) => {
+  const {
+    easyMap,
+    midMap,
+    hardMap,
+    customMap,
+    onChangeWidth,
+    onChangeHeight,
+    onChangeBomb,
+    buttonClick,
+  } = props;
   return (
     <div>
       <div className={styles.allDifficulcy}>

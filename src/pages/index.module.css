@@ -81,26 +81,31 @@
 .topborder {
   width: 100%;
   height: 16px;
+  background-color: #c6c6c6;
 }
 
 .leftborder {
   width: 16px;
   height: 100%;
+  background-color: #c6c6c6;
 }
 
 .midborder {
   width: 100%;
   height: 16px;
+  background-color: #c6c6c6;
 }
 
 .rightborder {
   width: 16px;
   height: 100%;
+  background-color: #c6c6c6;
 }
 
 .bottomborder {
   width: 100%;
   height: 16px;
+  background-color: #c6c6c6;
 }
 
 .boardstyle {
