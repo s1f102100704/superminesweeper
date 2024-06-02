@@ -55,8 +55,8 @@ const Board: React.FC<Props> = (props) => {
         <div
           id={styles.cellboard}
           style={{
-            height: `${33 * mineSweeperConfig.height + 6}px`,
-            width: `${33 * mineSweeperConfig.width + 6}px`,
+            height: `${33 * height + 6}px`,
+            width: `${33 * width + 6}px`,
           }}
         >
           {board.map((row, y) =>
