@@ -3,8 +3,6 @@ import Board from './component/Board';
 import CustomArea from './component/CustomArea';
 import { useGame } from './hooks/useGame';
 
-import React from 'react';
-
 const Home = () => {
   const {
     easyMap,
