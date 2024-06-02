@@ -527,4 +527,3 @@ export const useGame = () => {
     board,
   };
 };
-export default useGame;
