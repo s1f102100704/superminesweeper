@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import styles from '../index.module.css';
 
-export const useGame = () => {
+const useGame = () => {
   const [mineSweeperConfig, setMinsweeperConfig] = useState({
     level: 'easy',
     width: 9,
@@ -527,3 +527,4 @@ export const useGame = () => {
     board,
   };
 };
+export default useGame;
