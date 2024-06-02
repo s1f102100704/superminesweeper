@@ -1,4 +1,4 @@
-import styles from '../index.module.css';
+import styles from '../pages/index.module.css';
 import React from 'react';
 interface MineSweeperConfig {
   level: string;
